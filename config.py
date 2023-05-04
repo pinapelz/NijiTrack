@@ -43,5 +43,6 @@ ROOT_STORAGE_PATH = ""
 # Skip the options below if you are not using Holodex
 HOLODEX_ORG = "Nijisanji"
 ORG_MEMBER_COUNT = 300
+UPDATE_LOCAL_RECORDS = True # If true, will update the local records of the channels.txt and exclude_channels.txt files
 
 

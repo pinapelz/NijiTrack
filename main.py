@@ -128,6 +128,25 @@ def main(mode=0):
     # Generating individual pages
     generate_individual_stats(server, data)
 
+def generate_channel_files():
+    """
+    Generates the channels.txt and exclude_channels.txt files based on Holodex listings
+    """
+    if not UPDATE_LOCAL_RECORDS:
+        return
+    print("Running Channel Files Update")
+    hldex = HolodexAPI(fs.get_api_key("holodex_api_key"), member_count = ORG_MEMBER_COUNT,
+                       organization = HOLODEX_ORG)
+    hldex.get_data_all_channels()
+    if not os.path.exists("data"):
+        os.mkdir("data")
+    with open("data/channels.txt", "w", encoding="utf-8") as file:
+        file.write("\n".join(hldex.get_active_channels()))
+    with open("data/exclude_channels.txt", "w", encoding="utf-8") as file:
+        file.write("\n".join(hldex.get_exclude_channels()))
+    print("Success! Channel Files Updated!")
+
+
 if __name__ == "__main__":
     MODE = 1
     if len(sys.argv) > 1:
