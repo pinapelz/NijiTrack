@@ -103,11 +103,15 @@ def main(mode=0):
     server.create_table(HISTORICAL_TABLE_NAME, TABLE_COLUMNS)
     server.create_table(DAY_DIFF_TABLE_NAME, DIFF_COLUMNS)
     excluded_channels = []
+    data = []
     if mode == 0:
-        print("Running Holodex API Data Collection")
-        hldex = HolodexAPI(fs.get_api_key("holodex_api_key"), member_count=ORG_MEMBER_COUNT, organization=HOLODEX_ORG)
-        data = hldex.get_data_all_channels()
-        excluded_channels += hldex.get_exclude_channels()
+        holodex_organizations = HOLODEX_ORG.split(",")
+        print("Running Holodex API Data Collection\n"+"Found "+str(len(holodex_organizations))+" organizations")
+        for org in holodex_organizations:
+            hldex = HolodexAPI(fs.get_api_key("holodex_api_key"), member_count = ORG_MEMBER_COUNT, organization = org)
+            data += hldex.get_data_all_channels()
+            excluded_channels += hldex.get_exclude_channels()
+
     elif mode == 1:
         print("Running YouTube API Data Collection")
         ytapi = YouTubeAPI(fs.get_api_key("youtube_api_key"))
@@ -148,7 +152,7 @@ def generate_channel_files():
 
 
 if __name__ == "__main__":
-    MODE = 1
+    MODE = 0
     if len(sys.argv) > 1:
         MODE = int(sys.argv[1])
         ROOT_STORAGE_PATH = sys.argv[2]
