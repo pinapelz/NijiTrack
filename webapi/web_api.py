@@ -11,7 +11,7 @@ class WebAPI:
         self.api_key = api_key
         self.base_url = base_url
 
-    def _download_url(self, query: str) -> dict:
+    def _download_url(self, query: str, header = 'X-APIKEY') -> dict:
         """
         Downloads the URL and returns the result as a string
         param:
@@ -20,7 +20,7 @@ class WebAPI:
         if self.api_key is None:
             raise Exception("API key not set")
         opener = urllib.request.build_opener()
-        opener.addheaders = [('X-APIKEY', self.api_key)]
+        opener.addheaders = [(header, self.api_key)]
         urllib.request.install_opener(opener)
         response = urllib.request.urlopen(self.base_url + query)
         json_results = response.read()
