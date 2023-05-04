@@ -41,6 +41,7 @@ TIMEZONE_STR = "Pacific Standard Time"
 ROOT_STORAGE_PATH = ""
 
 # Skip the options below if you are not using Holodex
+# Organization names must match the names on Holodex (case sensitive)
 HOLODEX_ORG = "Nijisanji,Hololive" # Can be a comma separated list of organizations
 ORG_MEMBER_COUNT = 300
 UPDATE_LOCAL_RECORDS = True # If true, will update the local records of the channels.txt and exclude_channels.txt files
