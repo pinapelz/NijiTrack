@@ -12,6 +12,7 @@ class HolodexAPI(WebAPI):
         self.member_count = member_count
         self.organization = organization
         self._inactive_channels = []
+        self._active_channels = []
 
     def get_data_all_channels(self) -> list:
         """
@@ -28,6 +29,7 @@ class HolodexAPI(WebAPI):
             offset += 100
         for channel in data:
             if channel['inactive'] is False:
+                self._active_channels.append(channel['id'])
                 channel['description'] = self.get_channel_description(channel['id'])
                 filtered_data.append(channel)
             else:
@@ -53,3 +55,9 @@ class HolodexAPI(WebAPI):
         """
         data = self._download_url(f"channels/{channel_id}")
         return data['description']
+
+    def get_active_channels(self) -> list:
+        """
+        Gets the list of active channels
+        """
+        return self._active_channels
