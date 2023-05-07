@@ -34,6 +34,8 @@ def update_database(server: SQLHandler, data):
         # Difference should only be calculated every 24 hours
         # If the channel is new then calculate now, else then make sure 24 hours has passed since last reading
         if refresh_diff_table or not server.check_row_exists(DAY_DIFF_TABLE_NAME, "channel_id", channel_id):
+            if REFRESH_DAILY:
+                generate_channel_files()
             if not server.check_row_exists(DAY_DIFF_TABLE_NAME, "channel_id", channel_id):
                 server.insert_data(DAY_DIFF_TABLE_NAME,
                                    diff_columns, f"'{channel_id}', {sub_count}")
@@ -142,19 +144,23 @@ def generate_channel_files():
     if not UPDATE_LOCAL_RECORDS:
         return
     print("Running Channel Files Update")
-    hldex = HolodexAPI(fs.get_api_key("holodex_api_key"), member_count = ORG_MEMBER_COUNT,
-                       organization = HOLODEX_ORG)
-    hldex.get_data_all_channels()
+    active_channels = []
+    exclude_channels = []
     if not os.path.exists("data"):
         os.mkdir("data")
+    for org in HOLODEX_ORG.split(","):
+        hldex = HolodexAPI(fs.get_api_key("holodex_api_key"), member_count = ORG_MEMBER_COUNT,
+                    organization = org)
+        hldex.get_data_all_channels()
+        active_channels += hldex.get_active_channels()
+        exclude_channels += hldex.get_exclude_channels()
     with open("data/channels.txt", "w", encoding="utf-8") as file:
-        file.write("\n".join(hldex.get_active_channels()))
-    with open("data/exclude_channels.txt", "w", encoding="utf-8") as file:
-        file.write("\n".join(hldex.get_exclude_channels()))
+        file.write("\n".join(active_channels))
+    with open("data/exclude_channel.txt", "w", encoding="utf-8") as file:
+        file.write("\n".join(exclude_channels))
     print("Success! Channel Files Updated!")
 
-
-if __name__ == "__main__":
+if __name__ == "__main2__":
     MODE = 0
     if len(sys.argv) > 1:
         MODE = int(sys.argv[1])

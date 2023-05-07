@@ -28,8 +28,12 @@ class HolodexAPI(WebAPI):
             members -= 100
             offset += 100
         for channel in data:
+            print(channel['name'])
             if channel['inactive'] is False:
-                self._active_channels.append(channel['id'])
+                try:
+                    self._active_channels.append(channel['id'] + "," + channel['english_name'])
+                except (KeyError, TypeError, ValueError):
+                    self._active_channels.append(channel['id'] + "," + channel['name'])
                 channel['description'] = self.get_channel_description(channel['id'])
                 filtered_data.append(channel)
             else:
@@ -60,4 +64,4 @@ class HolodexAPI(WebAPI):
         """
         Gets the list of active channels
         """
-        return self._active_channels
+        yield from self._active_channels

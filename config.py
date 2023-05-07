@@ -44,6 +44,11 @@ ROOT_STORAGE_PATH = ""
 # Organization names must match the names on Holodex (case sensitive)
 HOLODEX_ORG = "Nijisanji,Hololive" # Can be a comma separated list of organizations
 ORG_MEMBER_COUNT = 300
-UPDATE_LOCAL_RECORDS = True # If true, will update the local records of the channels.txt and exclude_channels.txt files
+UPDATE_LOCAL_RECORDS = True # If true, will update the local records of the channels.txt and exclude_channels.txt file
+
+# URL for pulling the channels.txt and exclude_channels.txt file from a URL (should be raw txt form)
+# Provide link to the directory/base url that contains the channels.txt and exclude_channels.txt files
+EXTERNAL_DATA_URL = "https://raw.githubusercontent.com/pinapelz/NijiTrack/pettan-track-data/data/" # You'll need to manually call this
+REFRESH_DAILY = False # If true, will refresh the data from the external data url every day
 
 
