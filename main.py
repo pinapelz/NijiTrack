@@ -107,10 +107,13 @@ def main(mode=0):
     if mode == 0:
         holodex_organizations = HOLODEX_ORG.split(",")
         print("Running Holodex API Data Collection\n"+"Found "+str(len(holodex_organizations))+" organizations")
-        for org in holodex_organizations:
-            hldex = HolodexAPI(fs.get_api_key("holodex_api_key"), member_count = ORG_MEMBER_COUNT, organization = org)
-            data += hldex.get_data_all_channels()
-            excluded_channels += hldex.get_exclude_channels()
+        try:
+            for org in holodex_organizations:
+                hldex = HolodexAPI(fs.get_api_key("holodex_api_key"), member_count = ORG_MEMBER_COUNT, organization = org)
+                data += hldex.get_data_all_channels()
+                excluded_channels += hldex.get_exclude_channels()
+        except:
+            main(mode=1)
 
     elif mode == 1:
         print("Running YouTube API Data Collection")
