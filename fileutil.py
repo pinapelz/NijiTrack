@@ -1,4 +1,5 @@
 import os.path
+import urllib.request
 import json
 import time
 
@@ -74,3 +75,14 @@ def check_diff_refresh():
         with open(os.path.join("data","last_refresh.txt"), "w", encoding="utf-8") as file:
             file.write(time.strftime("%Y-%m-%d"))
         return True
+
+def update_data_files(url: str) -> None:
+    # Updates the local txt channel data stored in data folder
+    if not os.path.exists(os.path.join("data","channels.txt")):
+        open(os.path.join("data","channels.txt"), "w").close()
+    urllib.request.urlretrieve(url+"channels.txt", os.path.join("data","channels.txt"))
+    # downloaded txt file from url and write to channels.txt
+    
+    if not os.path.exists(os.path.join("data","exclude_channel.txt")):
+        open(os.path.join("data","exclude_channel.txt"), "w").close()
+    urllib.request.urlretrieve(url+"exclude_channel.txt", os.path.join("data","exclude_channel.txt"))
