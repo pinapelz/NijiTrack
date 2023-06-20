@@ -8,6 +8,7 @@ from webapi.holodex import HolodexAPI
 from webapi.youtube import YouTubeAPI
 from decorators import *
 import html_builders.builder as builder
+import sys
 
 
 
@@ -60,9 +61,8 @@ def generate_individual_pages(server: SQLHandler, data: list):
     if not os.path.exists("tables"):
         os.mkdir("tables")
     for channel in data:
-        # builder.build_individual_page(server, CONFIG, channel)
+        builder.build_individual_page(server, CONFIG, channel)
         builder.build_table_page(server, CONFIG, channel)
-        quit()
 
 
 
@@ -77,17 +77,20 @@ def holodex_generation(server: SQLHandler):
         record_subscriber_data(holodex.get_subscriber_data())
     return holodex.get_generated_channel_data()
 
-
+@log("Running YouTube Generation")
+def youtube_generation(server: SQLHandler):
+    ytapi = YouTubeAPI(CONFIG["API"]["youtube"])
+    server.clear_table(CONFIG["TABLES"]["live"])
+    server.reset_auto_increment(CONFIG["TABLES"]["live"])
+    data = ytapi.get_data_all_channels(fs.get_local_channels())
+    record_subscriber_data(data)
+    return data
 
 
 if __name__ == "__main__":
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
-    # initialize_database(server)
-    channel_data = holodex_generation(server)
+    initialize_database(server)
+    channel_data = holodex_generation(server) # channel_data = youtube_generation(server)
     generate_individual_pages(server, channel_data)
-    # builder.build_ranking_page(server, CONFIG)
-
-
-    
-
+    builder.build_ranking_page(server, CONFIG)
     
