@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="UTF-8"/>
+        <head>
+        <title>{{meta_title}}</title>
+        <link rel="icon" type="image/x-icon" href="{{meta_image_url}}">
+        <meta name="description" content="{{meta_description}}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <!-- Google / Search Engine Tags -->
+        <meta itemprop="name" content="{{meta_title}}">
+        <meta itemprop="description" content="{{meta_description}}">
+        <meta itemprop="image" content="{{meta_image_url}}">
+    
+        <!-- Facebook Meta Tags -->
+        <meta property="og:url" content="http://nijitracker.com">
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="{{meta_title}}">
+        <meta property="og:description" content="{{meta_description}}">
+        <meta property="og:image" content="{{meta_image_url}}">
+    
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{meta_title}}">
+        <meta name="twitter:description" content="{{meta_description}}">
+        <meta name="twitter:image" content="{meta_{image_url}}">
+        </head>
+        <body>
+            <a href="{{homepage_url}}" target="_self" rel="noopener noreferrer">
+                <div class="banner-container">
+                    <div class="banner-text">{{sub_text}}</div>
+                </div>
+            </a>
+            <style>
+                .banner-container {
+                    background-color: #2a4b71;
+                    color: white;
+                    text-align: center;
+                    font-size: 6em;
+                    font-family: 'Montserrat', sans-serif;
+                    font-weight: bold;
+                    padding: 0.2em 0;
+                    margin-bottom: 0.5em;
+                    margin: 0;
+                    position: relative;
+                }
+        
+                .banner-text {
+                    position: relative;
+                    animation-name: slideInRight;
+                    animation-duration: 1s;
+                    animation-timing-function: ease;
+                    animation-delay: 0s;
+                    animation-fill-mode: both;
+                }
+        
+                @keyframes slideInRight {
+                    0% {
+                        transform: translateX(-100%);
+                        opacity: 0;
+                    }
+                    100% {
+                        transform: translateX(0);
+                        opacity: 1;
+                    }
+                }
+        
+                /* Responsive design */
+                @media (max-width: 768px) {
+                    .banner-container {
+                        font-size: 4em;
+                    }
+                }
+        
+                @media (max-width: 576px) {
+                    .banner-container {
+                        font-size: 3em;
+                    }
+                }
+            </style>
+            <br>
+            <style>
+                .info-card {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    margin-bottom: 20px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                }
+        
+                .img-wrapper {
+                    width: 200px;
+                    height: 200px;
+                    overflow: hidden;
+                }
+        
+                .img-wrapper img {
+                    width: 100%;
+                    height: auto;
+                }
+        
+                .text-wrapper {
+                    flex: 1;
+                    padding: 20px;
+                }
+        
+                h2 {
+                    font-size: 24px;
+                    margin-bottom: 10px;
+                    font-family: Arial, sans-serif;
+                }
+        
+                p {
+                    font-size: 16px;
+                    margin-bottom: 20px;
+                    font-family: Arial, sans-serif;
+                }
+                a{
+                    font-family: Arial, sans-serif;
+                }
+        
+                .button {
+                    display: inline-block;
+                    padding: 10px 20px;
+                    border-radius: 20px;
+                    background-color: #0077b5;
+                    color: #fff;
+                    text-decoration: none;
+                    transition: background-color 0.2s ease;
+                }
+        
+                .button:hover {
+                    background-color: #005ea3;
+                }
+        
+                @media only screen and (max-width: 768px) {
+                    .info-card {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                    .img-wrapper {
+                        width: 100%;
+                        height: 250px;
+                        margin-bottom: 20px;
+                    }
+                    .text-wrapper {
+                        width: 100%;
+                        white-space: pre-line;
+                    }
+                }
+            </style>
+            <div class="info-card">
+                <div class="img-wrapper">
+                <img src="{{profile_pic}}" alt="{{name}}">
+                </div>
+                <div class="text-wrapper">
+                    <h2>{{name}}</h2>
+                    <p>{{description}}</p>
+                    <a class="button" href="https://www.youtube.com/channel/{{channel_id}}">YouTube Channel</a>
+                    </div>
+            </div>
+            <style>
+                table {
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    font-size: 16px;
+                    border-collapse: separate;
+                    border-spacing: 0;
+                    width: 100%;
+                    max-width: 1570px;
+                    margin: 0 auto;
+                    background-color: #fff;
+                    border-radius: 5px;
+                    overflow: hidden;
+                    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+                }
+                th, td {
+                    text-align: left;
+                    padding: 12px 15px;
+                    font-size: 18px;
+                    border-bottom: 1px solid #ddd;
+                }
+                th {
+                    background-color: #2a4b71;
+                    color: #fff;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    letter-spacing: 0.03em;
+                }
+                td:nth-child(3), td:nth-child(4) {
+                    text-align: left;
+                    padding: 12px 15px;
+                    font-size: 18px;
+                    border-bottom: 1px solid #ddd;
+                }
+                tbody tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+                tbody tr:hover {
+                    background-color: #ddd;
+                }
+                a {
+                    color: #3c8dbc;
+                    text-decoration: none;
+                }
+                @media screen and (max-width: 1024px) {
+                    table {
+                        font-size: 14px;
+                    }
+                    th, td {
+                        padding: 8px 10px;
+                        font-size: 16px;
+                    }
+                }
+                @media screen and (max-width: 768px) {
+                    th, td {
+                        padding: 5px 8px;
+                        font-size: 14px;
+                    }
+                }
+                @media screen and (max-width: 600px) {
+                    th, td {
+                        padding: 3px 5px;
+                        font-size: 12px;
+                    }
+                }
+                @media screen and (max-width: 400px) {
+                    th, td {
+                        padding: 2px 4px;
+                        font-size: 10px;
+                    }
+                }
+                </style>
+                {{full_table}}
+        </body>
+    </head>
