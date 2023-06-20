@@ -1,51 +1,24 @@
-import plotly.graph_objs as go
-import pandas as pd
-import mysql.connector
-from mysql.connector import errorcode
-import warnings
 import math
+import pandas as pd
+import warnings
 from datetime import datetime, timedelta
-import numpy as np
 
+def build_title_banner(text: str, menu_items):
+    banner_html = f"""
+    <div class="banner-container">
+        <div class="banner-text">{text}</div>
+    </div>
+    <div class="menu-bar">
+    """
+    for item in menu_items:
+        banner_html += f"""
+            <a href="{item[1]}">{item[0]}</a>
 
-def plot_subscriber_count_over_time(host, username, password, database_name, table_name,
-                                    gtitle = "Subscriber Count Over Time for Nijisanji Members",
-                                    overrideQuery = None, markers = "lines", exclude_channels = []):
-    warnings.filterwarnings('ignore')  # Ignore pandas warning regarding pyodbc
-    try:
-        cnx = mysql.connector.connect(user = username, password = password,
-                                      host = host, database = database_name)
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-    query = f"SELECT name, subscriber_count, timestamp, channel_id FROM {table_name} ORDER by timestamp DESC" if overrideQuery is None else overrideQuery
-    df = pd.read_sql_query(query, cnx)
-    groups = df.groupby("name")
-    fig = go.Figure()
-    config = dict({'responsive': True, 'displaylogo': False})
-    for channel, group in groups:
-        if len(exclude_channels) != 0 and group['channel_id'].iloc[0] in exclude_channels:
-            continue
-        fig.add_trace(go.Scattergl(
-            x = group["timestamp"], y = group["subscriber_count"], name = channel, mode = markers,
-            showlegend = True))
+        """
+    banner_html += "</div>"
+    return banner_html
 
-    fig.update_layout(
-        title = {'text': gtitle, 'x': 0.5, 'xanchor': 'center',
-                 'yanchor': 'top', 'font': {'family': 'Arial', 'size': 30}},
-        xaxis_title = "Timestamp",
-        yaxis_title = "Subscribers",
-        legend = dict(font = dict(size = 16), title = dict(text = "Channels")),
-        height = 950
-    )
-    return fig.to_html(config = config)
-
-
-def generate_projection(host, username, password, database_name, table_name, curr_subscribers,
+def build_projection_card(server, table_name, curr_subscribers, channel_name,
                         timezone = "Pacific Standard Time"):
     def get_next_milestone(subscriber_count):
         num_digits = len(str(subscriber_count))
@@ -59,17 +32,6 @@ def generate_projection(host, username, password, database_name, table_name, cur
         return next_milestone
 
     warnings.filterwarnings('ignore')  # Ignore pandas warning regarding pyodbc
-    try:
-        cnx = mysql.connector.connect(user = username, password = password,
-                                      host = host, database = database_name)
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-
     def create_milestone_card(time_until_milestone, next_milestone, not_enough_data = False,
                               declining = False):
         now = datetime.now()
@@ -104,11 +66,9 @@ def generate_projection(host, username, password, database_name, table_name, cur
         </div>
         <br>
         """
-
         return card
-
-    query = f"SELECT name, subscriber_count, timestamp FROM {table_name} WHERE timestamp >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) ORDER BY timestamp DESC"
-    df = pd.read_sql_query(query, cnx)
+    query = f"SELECT name, subscriber_count, timestamp FROM {table_name} WHERE timestamp >= DATE_SUB(CURRENT_DATE(), INTERVAL 30 DAY) AND name = \"{channel_name}\" ORDER BY timestamp DESC"
+    df = pd.read_sql_query(query, server.get_connection())
     df = df.sort_values(by = 'timestamp')
     # get the rate of change from first data point to last data point
     first_data = df.iloc[0]
@@ -126,3 +86,6 @@ def generate_projection(host, username, password, database_name, table_name, cur
     time_to_next_milestone = (
                                      next_milestone - curr_subscribers) / avg_rate_of_change
     return create_milestone_card(time_to_next_milestone, next_milestone)
+
+
+

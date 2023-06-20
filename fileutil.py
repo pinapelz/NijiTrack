@@ -2,6 +2,7 @@ import os.path
 import urllib.request
 import json
 import time
+import configparser
 
 
 def _read_file(path: str, lines=True) -> list:
@@ -12,29 +13,11 @@ def _read_file(path: str, lines=True) -> list:
         return file.read().splitlines()
 
 
-def get_login_data(path="config.json"):
-    # gets login data from config.json
-    data = json.loads(_read_file(os.path.join(path), lines=False))
-    try:
-        return data["address"], data["user"], data["password"]
-    except KeyError:
-        raise Exception("Login data not found")
-
-
-def get_api_key(api: str, path="config.json"):
-    # gets api key from config.json
-    data = json.loads(_read_file(os.path.join(path), lines=False))
-    try:
-        return data[api]
-    except KeyError:
-        raise Exception(f"API key for {api} not found")
-
-
 def get_excluded_channels():
     # gets excluded channels from exclude_channel.txt
-    if not os.path.exists(os.path.join("data","exclude_channel.txt")):
-        open(os.path.join("data","exclude_channel.txt"), "w").close()
-    excluded_channels = _read_file(os.path.join("data","exclude_channel.txt"))
+    if not os.path.exists(os.path.join("data", "exclude_channel.txt")):
+        open(os.path.join("data", "exclude_channel.txt"), "w").close()
+    excluded_channels = _read_file(os.path.join("data", "exclude_channel.txt"))
     return excluded_channels
 
 
@@ -49,9 +32,10 @@ def save_local_channels(data: list, path: str = "data"):
         open(path, "w").close()
     with open(path, "w", encoding="utf-8") as file:
         for channel in data:
-            if channel['id'] in excluded_channels:
+            if channel["id"] in excluded_channels:
                 continue
             file.write(f"{channel['id']},{channel['english_name']}\n")
+
 
 def get_local_channels(path: str = "data"):
     """
@@ -61,28 +45,57 @@ def get_local_channels(path: str = "data"):
     if not os.path.exists(path):
         raise Exception("Local channel data not found")
     with open(path, "r", encoding="utf-8") as file:
-        rows =  file.read().splitlines()
+        rows = file.read().splitlines()
         return [tuple(row.split(",")) for row in rows]
 
+
 def check_diff_refresh():
-    if not os.path.exists(os.path.join("data","last_refresh.txt")):
-        with open(os.path.join("data","last_refresh.txt"), "w", encoding="utf-8") as file:
+    if not os.path.exists(os.path.join("data", "last_refresh.txt")):
+        with open(
+            os.path.join("data", "last_refresh.txt"), "w", encoding="utf-8"
+        ) as file:
             file.write(time.strftime("%Y-%m-%d"))
             return True
-    with open(os.path.join("data","last_refresh.txt"), "r", encoding="utf-8") as file:
+    with open(os.path.join("data", "last_refresh.txt"), "r", encoding="utf-8") as file:
         last_refresh = file.read()
     if last_refresh != time.strftime("%Y-%m-%d"):
-        with open(os.path.join("data","last_refresh.txt"), "w", encoding="utf-8") as file:
+        with open(
+            os.path.join("data", "last_refresh.txt"), "w", encoding="utf-8"
+        ) as file:
             file.write(time.strftime("%Y-%m-%d"))
         return True
 
+
 def update_data_files(url: str) -> None:
     # Updates the local txt channel data stored in data folder
-    if not os.path.exists(os.path.join("data","channels.txt")):
-        open(os.path.join("data","channels.txt"), "w").close()
-    urllib.request.urlretrieve(url+"channels.txt", os.path.join("data","channels.txt"))
+    if not os.path.exists(os.path.join("data", "channels.txt")):
+        open(os.path.join("data", "channels.txt"), "w").close()
+    urllib.request.urlretrieve(
+        url + "channels.txt", os.path.join("data", "channels.txt")
+    )
     # downloaded txt file from url and write to channels.txt
-    
-    if not os.path.exists(os.path.join("data","exclude_channel.txt")):
-        open(os.path.join("data","exclude_channel.txt"), "w").close()
-    urllib.request.urlretrieve(url+"exclude_channel.txt", os.path.join("data","exclude_channel.txt"))
+
+    if not os.path.exists(os.path.join("data", "exclude_channel.txt")):
+        open(os.path.join("data", "exclude_channel.txt"), "w").close()
+    urllib.request.urlretrieve(
+        url + "exclude_channel.txt", os.path.join("data", "exclude_channel.txt")
+    )
+
+
+def load_config(ini_filepath: str) -> dict:
+    config_object = configparser.ConfigParser()
+    file = open(ini_filepath, "r")
+    config_object.read_file(file)
+    output_dict = {}
+    sections = config_object.sections()
+    for section in sections:
+        output_dict[section] = {}
+        for key in config_object[section]:
+            output_dict[section][key] = config_object[section][key]
+    return output_dict
+
+def load_json_file(json_file_path: str) -> dict:
+    with open(json_file_path, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
