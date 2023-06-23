@@ -82,7 +82,7 @@ def holodex_generation(server: SQLHandler):
     for organization in holodex_organizations:
         holodex.set_organization(organization)
         record_subscriber_data(holodex.get_subscriber_data())
-    return holodex.get_generated_channel_data()
+    return holodex.get_generated_channel_data(), holodex.get_inactive_channels()
 
 @log("Running YouTube Generation")
 def youtube_generation(server: SQLHandler):
@@ -93,11 +93,18 @@ def youtube_generation(server: SQLHandler):
     record_subscriber_data(data)
     return data
 
+def get_excluded_channel_ids(inactive_channel_data: list, excluded_channels: list):
+    channel_ids = []
+    for inactive_channel in inactive_channel_data:
+        if inactive_channel in excluded_channels:
+            continue
+        channel_ids.append(inactive_channel)
+    return channel_ids
+
 
 if __name__ == "__main__":
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
     initialize_database(server)
-    channel_data = holodex_generation(server) # channel_data = youtube_generation(server)
+    channel_data, inactive_channels = holodex_generation(server) # channel_data = youtube_generation(server)
     generate_individual_pages(server, channel_data)
-    builder.build_ranking_page(server, CONFIG)
-    
+    builder.build_ranking_page(server, CONFIG, get_excluded_channel_ids(inactive_channels, fs.get_excluded_channels()))
