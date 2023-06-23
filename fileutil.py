@@ -20,6 +20,15 @@ def get_excluded_channels():
     excluded_channels = _read_file(os.path.join("data", "exclude_channel.txt"))
     return excluded_channels
 
+def update_excluded_channels(channel_ids: list):
+    # add to exclude_channel.txt if not already there
+    excluded_channels = get_excluded_channels()
+    for channel_id in channel_ids:
+        if channel_id not in excluded_channels:
+            excluded_channels.append(channel_id)
+    with open(os.path.join("data", "exclude_channel.txt"), "w", encoding="utf-8") as file:
+        for channel_id in excluded_channels:
+            file.write(channel_id + "\n")
 
 def save_local_channels(data: list, path: str = "data"):
     """

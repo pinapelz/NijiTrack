@@ -106,5 +106,6 @@ if __name__ == "__main__":
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
     initialize_database(server)
     channel_data, inactive_channels = holodex_generation(server) # channel_data = youtube_generation(server)
+    fs.update_excluded_channels(inactive_channels)
     generate_individual_pages(server, channel_data)
     builder.build_ranking_page(server, CONFIG, get_excluded_channel_ids(inactive_channels, fs.get_excluded_channels()))
