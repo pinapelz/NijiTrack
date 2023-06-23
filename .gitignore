@@ -4,6 +4,9 @@ config.json
 .github
 main.py
 .idea
+tables
+stats
+.vscode
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

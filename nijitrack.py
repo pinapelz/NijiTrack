@@ -60,9 +60,16 @@ def generate_individual_pages(server: SQLHandler, data: list):
         os.mkdir("stats")
     if not os.path.exists("tables"):
         os.mkdir("tables")
+    excluded_channels = fs.get_excluded_channels()
     for channel in data:
-        builder.build_individual_page(server, CONFIG, channel)
-        builder.build_table_page(server, CONFIG, channel)
+        if channel["id"] in excluded_channels:
+            continue
+        try:
+            builder.build_individual_page(server, CONFIG, channel)
+            builder.build_table_page(server, CONFIG, channel)
+        except Exception as e:
+            print(f"ERROR: {e} - {channel['name']}")
+            continue
 
 
 
