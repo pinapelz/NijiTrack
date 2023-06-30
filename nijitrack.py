@@ -1,5 +1,4 @@
 import os
-import sys
 import time
 
 import fileutil as fs
@@ -8,9 +7,7 @@ from webapi.holodex import HolodexAPI
 from webapi.youtube import YouTubeAPI
 from decorators import *
 import html_builders.builder as builder
-import sys
-
-
+import argparse
 
 
 CONFIG = fs.load_config("config.ini")
@@ -56,6 +53,9 @@ def record_subscriber_data(data: list):
 
 @log("Generating Indvidual Channel Pages")
 def generate_individual_pages(server: SQLHandler, data: list):
+    """
+    Generate the individual pages for each channel within the 'stats' directory
+    """
     if not os.path.exists("stats"):
         os.mkdir("stats")
     if not os.path.exists("tables"):
@@ -75,6 +75,9 @@ def generate_individual_pages(server: SQLHandler, data: list):
 
 @log("Running Holodex Generation")
 def holodex_generation(server: SQLHandler):
+    """
+    Generates the data from the Holodex API
+    """
     holodex_organizations = DATA_SETTING["HOLODEX_ORGS"].split(",")
     server.clear_table(CONFIG["TABLES"]["live"])
     server.reset_auto_increment(CONFIG["TABLES"]["live"])
@@ -86,6 +89,9 @@ def holodex_generation(server: SQLHandler):
 
 @log("Running YouTube Generation")
 def youtube_generation(server: SQLHandler):
+    """
+    Generates the data from the YouTube API
+    """
     ytapi = YouTubeAPI(CONFIG["API"]["youtube"])
     server.clear_table(CONFIG["TABLES"]["live"])
     server.reset_auto_increment(CONFIG["TABLES"]["live"])
@@ -93,7 +99,10 @@ def youtube_generation(server: SQLHandler):
     record_subscriber_data(data)
     return data
 
-def get_excluded_channel_ids(inactive_channel_data: list, excluded_channels: list):
+def combine_excluded_channel_ids(inactive_channel_data: list, excluded_channels: list):
+    """
+    Combines the local excluded channels with the inactive channels from the API
+    """
     channel_ids = []
     for inactive_channel in inactive_channel_data:
         if inactive_channel in excluded_channels:
@@ -103,9 +112,17 @@ def get_excluded_channel_ids(inactive_channel_data: list, excluded_channels: lis
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="NijiTrack - A Subscriber Tracker")
+    parser.add_argument('--mode', choices=['yt', 'holodex'], help='Specify the data source to use (yt or holodex)')
+    args = parser.parse_args()
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
     initialize_database(server)
-    channel_data, inactive_channels = holodex_generation(server) # channel_data = youtube_generation(server)
+    if args.mode == 'yt':
+        print("Using YouTube API")
+        channel_data = youtube_generation(server)
+        inactive_channels = fs.get_excluded_channels()
+    else:
+        channel_data, inactive_channels = holodex_generation(server)
     fs.update_excluded_channels(inactive_channels)
     generate_individual_pages(server, channel_data)
-    builder.build_ranking_page(server, CONFIG, get_excluded_channel_ids(inactive_channels, fs.get_excluded_channels()))
+    builder.build_ranking_page(server, CONFIG, combine_excluded_channel_ids(inactive_channels, fs.get_excluded_channels()))
