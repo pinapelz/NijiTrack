@@ -19,7 +19,7 @@ def send_static(path):
 def send_niji_table(path):
     return send_from_directory('tables', path+".html")
 
-@app.route('/pettantracker')
+@app.route('/pettantrack')
 def send_pettan():
     return send_file('/home/pinapelz/PettanTrack/index.html')
 
