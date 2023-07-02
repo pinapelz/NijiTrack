@@ -6,7 +6,7 @@ import os
 import time
 
 MENU_ITEMS = [
-    ("Nijitracker", "https://www.nijitracker.com"),
+    ("Nijitracker", "https://nijitracker.com"),
     ("Pettantracker", "https://nijitracker.com/pettantrack")
 ]
 
