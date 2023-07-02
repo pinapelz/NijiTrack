@@ -46,7 +46,7 @@ def generate_html_table(server, table, diff_table, headers=["Rank", "Liver", "Su
     cursor.close()
     return table_html
 
-def generate_individual_table(server, table_name, channel_name, param="LIMIT 7"):
+def generate_individual_table(server, table_name, channel_name, param=""):
     cursor = server.get_connection().cursor()
     query = f"SELECT subscriber_count, timestamp FROM {table_name} WHERE name=\"{channel_name}\" GROUP BY DATE(timestamp) ORDER by timestamp DESC " + param
     cursor.execute(query)
