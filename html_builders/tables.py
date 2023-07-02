@@ -1,4 +1,4 @@
-def generate_html_table(server, table, diff_table, headers=["Rank", "Liver", "Subscriber", "Difference (24hr)"], root_url="https://www.nijitracker.com"):
+def generate_html_table(server, table, diff_table, headers=["Rank", "Liver", "Subscriber", "Difference (24hr)"]):
     def get_daily_difference_subs(sub_count_str: str):
         diff_cursor = server.get_connection().cursor()
         diff_cursor.execute(query)
@@ -26,7 +26,7 @@ def generate_html_table(server, table, diff_table, headers=["Rank", "Liver", "Su
         rank += 1
         for i, col in enumerate(row):
             if cursor.description[i][0] == "name":
-                channel_url = f"{root_url}/stats/{row[2]}"
+                channel_url = f"/stats/{row[2]}"
                 profile_pic_url = row[5]
                 table_row += f"<td><a href='{channel_url}'><img src='{profile_pic_url}' height='50px' width='50px'>{col}</a></td>"
             elif cursor.description[i][0] == "subscriber_count":

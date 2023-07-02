@@ -66,7 +66,7 @@ def build_individual_page(server, CONFIG: dict, channel_data: str):
         "subscriber_trend": graphs.plot_subscriber_count_over_time(server, CONFIG["TABLES"]["historical"], gtitle = "Subscriber Count Over Time for " + channel_name, overrideQuery = f"SELECT name, subscriber_count, timestamp, channel_id FROM {CONFIG['TABLES']['historical']} WHERE channel_id = '{channel_id}' ORDER by timestamp DESC", markers = "lines+markers"),
         "divider": "Recent Subscriber Data:",
         "weekly_trend": graphs.plot_subscriber_count_over_time(server, CONFIG["TABLES"]["historical"], gtitle = "Weekly Subscriber Count Over Time for " + channel_name, overrideQuery = f"SELECT name, subscriber_count, timestamp, channel_id FROM {CONFIG['TABLES']['historical']} WHERE channel_id = '{channel_id}' AND timestamp >= DATE_SUB(NOW(), INTERVAL 7 DAY) ORDER by timestamp DESC", markers = "lines+markers"),
-        "full_table_url": CONFIG["WEBSITE"]["homepage"] + "/tables/"+channel_name
+        "full_table_url": "/tables/"+channel_name
     }
     output = template.render(input_dict)
     with open(page_path, "w", encoding="utf-8") as f:

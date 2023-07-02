@@ -3,5 +3,5 @@
     "LIVE_HEADER": "channel_id, profile_pic, name, subscriber_count, timestamp",
     "DAILY_COLUMNS": "id INT PRIMARY KEY AUTO_INCREMENT, channel_id VARCHAR(255), sub_diff INT",
     "DAILY_HEADER": "channel_id, sub_diff",
-    "HOLODEX_ORGS": "Phase%20Connect"
+    "HOLODEX_ORGS": "Nijisanji"
 }
