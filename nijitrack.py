@@ -31,7 +31,7 @@ def record_subscriber_data(data: list):
             server.insert_row(CONFIG["TABLES"]["daily"], DATA_SETTING["DAILY_HEADER"], (data_tuple[0], data_tuple[3]))
             return
         elif refresh_daily:
-            server.update_row(CONFIG["TABLES"]["daily"], "sub_diff", sub_count, "channel_id", channel_id)
+            server.update_row(CONFIG["TABLES"]["daily"], "channel_id", channel_id, "sub_diff", sub_count)
     
     exclude_channels = fs.get_excluded_channels()
     refresh_daily = fs.check_diff_refresh()
@@ -123,5 +123,5 @@ if __name__ == "__main__":
     else:
         channel_data, inactive_channels = holodex_generation(server)
     fs.update_excluded_channels(inactive_channels)
-    generate_individual_pages(server, channel_data)
     builder.build_ranking_page(server, CONFIG, combine_excluded_channel_ids(inactive_channels, fs.get_excluded_channels()))
+    generate_individual_pages(server, channel_data)

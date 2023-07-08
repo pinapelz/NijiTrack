@@ -3,6 +3,8 @@ def generate_html_table(server, table, diff_table, headers=["Rank", "Liver", "Su
         diff_cursor = server.get_connection().cursor()
         diff_cursor.execute(query)
         diff_data = diff_cursor.fetchall()
+        if len(diff_data) == 0:
+            return "N/A"
         old_sub_count = int(diff_data[0][0])
         current_sub_count = int(sub_count_str)
         if old_sub_count > current_sub_count:
