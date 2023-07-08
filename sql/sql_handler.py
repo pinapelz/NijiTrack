@@ -62,7 +62,7 @@ class SQLHandler:
             query = f"INSERT INTO {name} ({column}) VALUES ({placeholders})"
             cursor.execute(query, data)
             self.connection.commit()
-            print("Data Inserted:", data)
+            print("Data Inserted:", data, "into", name)
         except Error as err:
             print("Error inserting data")
             print(err)
