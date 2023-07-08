@@ -31,7 +31,7 @@ def record_subscriber_data(data: list):
             # data_tuple = (channel_id, pfp, channel_name, sub_count, time.strftime('%Y-%m-%d %H:%M:%S'))
             server.insert_row(CONFIG["TABLES"]["daily"], DATA_SETTING["DAILY_HEADER"], (data_tuple[0], data_tuple[3]))
             return
-        elif refresh_daily:
+        if refresh_daily:
             server.update_row(CONFIG["TABLES"]["daily"], "sub_count", sub_count, "channel_id", channel_id)
     
     exclude_channels = fs.get_excluded_channels()

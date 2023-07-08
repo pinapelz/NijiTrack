@@ -61,8 +61,7 @@ def get_local_channels(path: str = "data"):
 def check_diff_refresh():
     if not os.path.exists(os.path.join("data", "last_refresh.txt")):
         with open(
-            os.path.join("data", "last_refresh.txt"), "w", encoding="utf-8"
-        ) as file:
+            os.path.join("data", "last_refresh.txt"), "w", encoding="utf-8") as file:
             file.write(time.strftime("%Y-%m-%d"))
             return True
     with open(os.path.join("data", "last_refresh.txt"), "r", encoding="utf-8") as file:
