@@ -25,8 +25,7 @@ def initialize_database(server: SQLHandler):
 def record_subscriber_data(data: list):
     def transform_sql_string(string: str) -> str:
         return string.encode("ascii", "ignore").decode().replace("'", "''")
-    def record_diff_data(data_tuple: tuple):
-        refresh_daily = fs.check_diff_refresh()
+    def record_diff_data(data_tuple: tuple, refresh_daily: bool):
         if not server.check_row_exists(CONFIG["TABLES"]["daily"], "channel_id", channel_id):
             # data_tuple = (channel_id, pfp, channel_name, sub_count, time.strftime('%Y-%m-%d %H:%M:%S'))
             server.insert_row(CONFIG["TABLES"]["daily"], DATA_SETTING["DAILY_HEADER"], (data_tuple[0], data_tuple[3]))
@@ -35,6 +34,7 @@ def record_subscriber_data(data: list):
             server.update_row(CONFIG["TABLES"]["daily"], "sub_count", sub_count, "channel_id", channel_id)
     
     exclude_channels = fs.get_excluded_channels()
+    refresh_daily = fs.check_diff_refresh()
     for channel in data:
         channel_id = channel["id"]
         if channel_id in exclude_channels:
@@ -48,7 +48,7 @@ def record_subscriber_data(data: list):
         data_tuple = (channel_id, pfp, channel_name, sub_count, time.strftime('%Y-%m-%d %H:%M:%S'))
         server.insert_row(name = CONFIG["TABLES"]["live"], column = DATA_SETTING["LIVE_HEADER"], data=data_tuple)
         server.insert_row(name = CONFIG["TABLES"]["historical"], column = DATA_SETTING["LIVE_HEADER"], data=data_tuple)
-        record_diff_data(data_tuple)
+        record_diff_data(data_tuple, refresh_daily)
 
 @log("Generating Indvidual Channel Pages")
 def generate_individual_pages(server: SQLHandler, data: list):
