@@ -6,7 +6,6 @@ from sql.sql_handler import SQLHandler
 from webapi.holodex import HolodexAPI
 from webapi.youtube import YouTubeAPI
 from decorators import *
-import html_builders.builder as builder
 import argparse
 
 
@@ -50,27 +49,6 @@ def record_subscriber_data(data: list):
         data_tuple = (channel_id, pfp, channel_name, sub_count, time.strftime('%Y-%m-%d %H:%M:%S'))
         server.insert_row(name = CONFIG["TABLES"]["live"], column = DATA_SETTING["LIVE_HEADER"], data=data_tuple)
         record_diff_data(data_tuple, refresh_daily)
-
-@log("Generating Indvidual Channel Pages")
-def generate_individual_pages(server: SQLHandler, data: list):
-    """
-    Generate the individual pages for each channel within the 'stats' directory
-    """
-    if not os.path.exists("stats"):
-        os.mkdir("stats")
-    if not os.path.exists("tables"):
-        os.mkdir("tables")
-    excluded_channels = fs.get_excluded_channels()
-    for channel in data:
-        if channel["id"] in excluded_channels:
-            continue
-        try:
-            builder.build_individual_page(server, CONFIG, channel)
-            builder.build_table_page(server, CONFIG, channel)
-        except Exception as e:
-            print(f"ERROR: {e} - {channel['name']}")
-            continue
-
 
 
 @log("Running Holodex Generation")
@@ -124,5 +102,3 @@ if __name__ == "__main__":
     else:
         channel_data, inactive_channels = holodex_generation(server)
     fs.update_excluded_channels(inactive_channels)
-    builder.build_ranking_page(server, CONFIG, combine_excluded_channel_ids(inactive_channels, fs.get_excluded_channels()))
-    generate_individual_pages(server, channel_data)
