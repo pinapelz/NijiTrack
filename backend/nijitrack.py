@@ -1,10 +1,10 @@
-import os
 import time
 
 import fileutil as fs
 from sql.sql_handler import SQLHandler
 from webapi.holodex import HolodexAPI
 from webapi.youtube import YouTubeAPI
+import graph
 from decorators import *
 import argparse
 
@@ -43,10 +43,14 @@ def record_subscriber_data(data: list):
         pfp = channel["photo"]
         sub_count = channel["subscriber_count"]
         channel_name = channel["english_name"]
+        sub_org = channel["group"]
+        video_count = channel["video_count"]
         if channel_name is None:
             channel_name = channel["name"]
+        if sub_org is None:
+            sub_org = "Unknown"
         channel_name = transform_sql_string(channel_name)
-        data_tuple = (channel_id, pfp, channel_name, sub_count, time.strftime('%Y-%m-%d %H:%M:%S'))
+        data_tuple = (channel_id, pfp, channel_name, sub_count, sub_org, video_count, time.strftime('%Y-%m-%d %H:%M:%S'))
         server.insert_row(name = CONFIG["TABLES"]["live"], column = DATA_SETTING["LIVE_HEADER"], data=data_tuple)
         record_diff_data(data_tuple, refresh_daily)
 
@@ -62,7 +66,11 @@ def holodex_generation(server: SQLHandler):
     holodex = HolodexAPI(CONFIG["API"]["holodex"])
     for organization in holodex_organizations:
         holodex.set_organization(organization)
-        record_subscriber_data(holodex.get_subscriber_data())
+        subscriber_data = holodex.get_subscriber_data()
+        record_subscriber_data(subscriber_data)
+    #for channel in subscriber_data:
+    #    print(channel["name"] + " " + channel["group"] + " " + channel["video_count"] )
+    #input()
     return holodex.get_generated_channel_data(), holodex.get_inactive_channels()
 
 @log("Running YouTube Generation")
@@ -102,3 +110,6 @@ if __name__ == "__main__":
     else:
         channel_data, inactive_channels = holodex_generation(server)
     fs.update_excluded_channels(inactive_channels)
+    graph_html = graph.plot_subscriber_count_over_time(server, CONFIG["TABLES"]["historical"], exclude_channels=combine_excluded_channel_ids(inactive_channels, fs.get_excluded_channels()))
+    with open("index.html", "w", encoding="utf-8") as file:
+        file.write(graph_html)
