@@ -7,7 +7,7 @@ async function Home(){
     return(
         <>
             <TitleBar title="Nijitracker" />
-            <div className="sm:block hidden mt-4" style={{ overflow: 'hidden', height: '88vh', position: 'relative' }}>
+            <div className="sm:block hidden mt-4" style={{ overflow: 'hidden', height: '105vh', position: 'relative' }}>
                 <iframe src={apiUrl} style={{ position: 'absolute', top: 0, left: 0 }} width="100%" height="100%"></iframe>
             </div>
             <SubscriberTable {...data} />
