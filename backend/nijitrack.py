@@ -16,7 +16,7 @@ DATA_SETTING = fs.load_json_file("sql_table_config.json")
 @log("Initializing Database")
 def initialize_database(server: SQLHandler):
     server.create_table(name = CONFIG["TABLES"]["live"], column = DATA_SETTING["LIVE_COLUMNS"])
-    server.create_table(name = CONFIG["TABLES"]["historical"], column = DATA_SETTING["LIVE_COLUMNS"])
+    server.create_table(name = CONFIG["TABLES"]["historical"], column = DATA_SETTING["HISTORICAL_COLUMNS"])
     server.create_table(name = CONFIG["TABLES"]["daily"], column = DATA_SETTING["DAILY_COLUMNS"])
 
 
@@ -28,11 +28,11 @@ def record_subscriber_data(data: list):
         if not server.check_row_exists(CONFIG["TABLES"]["daily"], "channel_id", channel_id):
             # data_tuple = (channel_id, pfp, channel_name, sub_count, time.strftime('%Y-%m-%d %H:%M:%S'))
             server.insert_row(CONFIG["TABLES"]["daily"], DATA_SETTING["DAILY_HEADER"], (data_tuple[0], data_tuple[3]))
-            server.insert_row(name = CONFIG["TABLES"]["historical"], column = DATA_SETTING["LIVE_HEADER"], data=data_tuple)
+            server.insert_row(name = CONFIG["TABLES"]["historical"], column = DATA_SETTING["HISTORICAL_HEADER"], data=data_tuple)
             return
         elif refresh_daily:
             server.update_row(CONFIG["TABLES"]["daily"], "channel_id", channel_id, "sub_diff", sub_count)
-            server.insert_row(name = CONFIG["TABLES"]["historical"], column = DATA_SETTING["LIVE_HEADER"], data=data_tuple)
+            server.insert_row(name = CONFIG["TABLES"]["historical"], column = DATA_SETTING["HISTORICAL_HEADER"], data=data_tuple)
     
     exclude_channels = fs.get_excluded_channels()
     refresh_daily = fs.check_diff_refresh()
@@ -51,8 +51,9 @@ def record_subscriber_data(data: list):
             sub_org = "Unknown"
         channel_name = transform_sql_string(channel_name)
         data_tuple = (channel_id, pfp, channel_name, sub_count, sub_org, video_count, time.strftime('%Y-%m-%d %H:%M:%S'))
+        historical_data_tuple = (channel_id, pfp, channel_name, sub_count, time.strftime('%Y-%m-%d %H:%M:%S'))
         server.insert_row(name = CONFIG["TABLES"]["live"], column = DATA_SETTING["LIVE_HEADER"], data=data_tuple)
-        record_diff_data(data_tuple, refresh_daily)
+        record_diff_data(historical_data_tuple, refresh_daily)
 
 
 @log("Running Holodex Generation")
