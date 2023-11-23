@@ -69,9 +69,6 @@ def holodex_generation(server: SQLHandler):
         holodex.set_organization(organization)
         subscriber_data = holodex.get_subscriber_data()
         record_subscriber_data(subscriber_data)
-    #for channel in subscriber_data:
-    #    print(channel["name"] + " " + channel["group"] + " " + channel["video_count"] )
-    #input()
     return holodex.get_generated_channel_data(), holodex.get_inactive_channels()
 
 @log("Running YouTube Generation")

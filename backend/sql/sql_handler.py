@@ -140,8 +140,17 @@ class SQLHandler:
             print("Error updating row")
             print(err)
     
-    def execute_query(self, query: str):
+    def execute_query(self, query: str, data: tuple = None):
         cursor = self.connection.cursor(buffered=True)
+        if data:
+            try:
+                cursor.execute(query, data)
+                result = cursor.fetchall()
+                return result
+            except Error as err:
+                print("Error executing query")
+                print(err)
+                return None
         try:
             cursor.execute(query)
             result = cursor.fetchall()

@@ -17,7 +17,6 @@ const Footer = () => {
         </p>
         <p className="p-4">
             <a className="hover:underline text-bold" href="https://github.com/pinapelz/Nijitrack">Source Code</a><br/>
-            We are currently under construction!
         </p>
       </div>
     </footer>

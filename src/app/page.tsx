@@ -1,5 +1,5 @@
-import SubscriberTable, {SubscriberDataTableProp} from './_componenets/SubscriberTable/SubscriberTable';
-import TitleBar from './_componenets/TitleBar/TitleBar';
+import SubscriberTable, {SubscriberDataTableProp} from '../components/SubscriberTable/SubscriberTable';
+import TitleBar from '../components/TitleBar/TitleBar';
 
 async function Home(){
     const apiUrl = process.env.NEXT_PUBLIC_API_URL

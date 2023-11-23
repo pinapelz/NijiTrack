@@ -9,7 +9,7 @@ interface ChannelRowProps {
 }
 
 const ChannelRow: React.FC<ChannelRowProps> = ({ channel, index }) => (
-<tr key={index} className="border-b hover:bg-gray-100 cursor-pointer">
+<tr key={index} className="border-b hover:bg-gray-100 cursor-pointer" onClick={() => window.location.href = "/stats/"+channel.channel_name}>
         <td className="py-3 px-1 sm:px-3 hidden sm:table-cell">{index + 1}</td>
         <td className="py-3 px-1 sm:px-3 flex items-center">
             <Image
