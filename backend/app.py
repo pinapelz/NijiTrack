@@ -89,17 +89,22 @@ def get_channel_information(channel_name):
     df = pandas.DataFrame(data=data)
     df['dates'] = pandas.to_datetime(df['dates'])
     df.set_index('dates', inplace=True)
-    model = LinearRegression()
-    X = np.array(range(len(df))).reshape(-1, 1)
-    y = df['subscribers']
-    model.fit(X, y)
-    next_milestone = find_next_milestone(current_subscriber_count)
-    days_until_next_milestone = (next_milestone - model.intercept_) / model.coef_
-    next_milestone_date = (df.index[0] + pandas.Timedelta(days=int(days_until_next_milestone))).date()
-    time_until_next_milestone = (next_milestone_date - datetime.datetime.now().date()).days
-    channel_data["next_milestone_date"] = str(next_milestone_date)
-    channel_data["days_until_next_milestone"] = str(time_until_next_milestone)
-    channel_data["next_milestone"] = str(next_milestone)
+    try:
+        model = LinearRegression()
+        X = np.array(range(len(df))).reshape(-1, 1)
+        y = df['subscribers']
+        model.fit(X, y)
+        next_milestone = find_next_milestone(current_subscriber_count)
+        days_until_next_milestone = (next_milestone - model.intercept_) / model.coef_
+        next_milestone_date = (df.index[0] + pandas.Timedelta(days=int(days_until_next_milestone))).date()
+        time_until_next_milestone = (next_milestone_date - datetime.datetime.now().date()).days
+        channel_data["next_milestone_date"] = str(next_milestone_date)
+        channel_data["days_until_next_milestone"] = str(time_until_next_milestone)
+        channel_data["next_milestone"] = str(next_milestone)
+    except OverflowError:
+        channel_data["next_milestone_date"] = "N/A"
+        channel_data["days_until_next_milestone"] = "N/A"
+        channel_data["next_milestone"] = "N/A"
     return jsonify(channel_data)
 
 @app.errorhandler(404)
