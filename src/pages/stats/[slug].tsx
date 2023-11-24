@@ -57,9 +57,6 @@ export default function Page() {
         <div className="mb-12">
           <DataChart channel_name={slug as string}/>
         </div>
-        <div className="mb-4">
-          <DataChart channel_name={slug as string} requestUrl={`${process.env.NEXT_PUBLIC_API_URL}/api/subscribers/${slug as string}/7d`} graphTitle="7 Day Historical"/>
-        </div>
       </div>
     </>
   );
