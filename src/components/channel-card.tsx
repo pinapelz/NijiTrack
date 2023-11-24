@@ -40,7 +40,7 @@ export function ChannelCard(props: ChannelCardProps) {
         </div>
         <div className="flex flex-col items-center">
           <span className="text-l text-gray-600">Next Milestone</span>
-          <span className="font-semibold">{nextMilestone}</span>
+          <span className="font-semibold">{nextMilestone.toLocaleString()}</span>
           <div className="flex justify-center items-center">
             <span className="text-sm text-gray-600 px-2">{nextMilestoneDays} days</span>
             <span className="text-sm text-gray-600 px-2">{nextMilestoneDate}</span>
