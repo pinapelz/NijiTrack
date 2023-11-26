@@ -64,7 +64,7 @@ def api_subscribers_channel_7d(channel_name):
 def get_channel_information(channel_name):
     def find_next_milestone(subscriber_count):
         if subscriber_count < 100000:
-            return 100000
+            return ((subscriber_count // 10000) + 1) * 10000
         elif subscriber_count < 1000000:
             return ((subscriber_count // 100000) + 1) * 100000
         else:
