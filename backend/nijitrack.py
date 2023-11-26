@@ -64,7 +64,7 @@ def holodex_generation(server: SQLHandler):
     holodex_organizations = DATA_SETTING["HOLODEX_ORGS"].split(",")
     server.clear_table(CONFIG["TABLES"]["live"])
     server.reset_auto_increment(CONFIG["TABLES"]["live"])
-    holodex = HolodexAPI(CONFIG["API"]["holodex"])
+    holodex = HolodexAPI(CONFIG["API"]["holodex"], organization="Phase%20Connect")
     for organization in holodex_organizations:
         holodex.set_organization(organization)
         subscriber_data = holodex.get_subscriber_data()
