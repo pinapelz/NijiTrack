@@ -6,7 +6,7 @@ async function Home(){
     const data: SubscriberDataTableProp = await getData();
     return(
         <>
-            <TitleBar title="Nijitracker" />
+            <TitleBar title="PhaseTracker" backgroundColor='black' />
             <div className="sm:block hidden mt-4" style={{ overflow: 'hidden', height: '105vh', position: 'relative' }}>
                 <iframe src={apiUrl} style={{ position: 'absolute', top: 0, left: 0 }} width="100%" height="100%"></iframe>
             </div>

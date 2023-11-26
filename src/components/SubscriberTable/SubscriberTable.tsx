@@ -28,7 +28,7 @@ return (
         </div>
         <div className="px-2 sm:px-48 py-4 sm:py-8 relative shadow-md rounded-l text-left overflow-auto">
             <table className="w-full text-m sm:text-xl text-black bg-white">
-                <thead className="text-m sm:text-lg text-white" style={{ backgroundColor: '#2D4B71' }}>
+                <thead className="text-m sm:text-lg text-white rounded-md" style={{ backgroundColor: 'black' }}>
                     <tr>
                         <th scope="col" className="py-1 px-1 sm:px-3 hidden sm:table-cell">
                             RANK

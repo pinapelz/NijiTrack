@@ -1,11 +1,9 @@
-"use client";
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { GetServerSideProps } from "next";
 import "../../app/globals.css";
 import TitleBar from "../../components/TitleBar/TitleBar";
 import { ChannelCard } from "@/components/channel-card";
 import DataChart from "@/components/DataChart/DataChart";
-import axios from "axios";
 
 interface ChannelDataProp {
   channel_name: string;
@@ -18,28 +16,32 @@ interface ChannelDataProp {
   next_milestone_date: string;
 }
 
-export default function Page() {
-  const [channelData, setChannelData] = useState<ChannelDataProp | null>(null);
-  const router = useRouter();
-  const { slug } = router.query;
-  useEffect(() => {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    if (slug) {
-      const encodedSlug = encodeURIComponent(slug as string);
-      console.log(apiUrl + `/api/channel/${encodedSlug}`);
-      axios.get(apiUrl + `/api/channel/${encodedSlug}`).then((response) => {
-        console.log(response);
-        setChannelData(response.data);
-      });
-    }
-  }, [slug]);
+interface GraphDataProp{
+  labels: string[];
+  datasets: number[];
+}
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { slug } = context.params || {};
+
+  const chartData = await getGraphData(slug as string);
+  const channelData = await getChannelData(slug as string);
+
+  return {
+    props: {
+      chartData,
+      channelData,
+      slug
+    },
+  };
+};
+
+function Page({ chartData, channelData, slug }: { chartData: GraphDataProp, channelData: ChannelDataProp, slug: string }) {
   return (
     <>
-      <TitleBar title={slug as string} redirectUrl="/" showHomeButton />
+      <TitleBar title={slug as string} redirectUrl="/" showHomeButton backgroundColor="black" />
       <div className="flex justify-center">
         <div className="flex flex-col items-center">
-          {channelData && (
             <ChannelCard
               name={channelData.channel_name}
               avatarUrl={channelData.profile_pic}
@@ -50,14 +52,45 @@ export default function Page() {
               nextMilestoneDays={channelData.days_until_next_milestone}
               nextMilestoneDate={channelData.next_milestone_date}
             />
-          )}
         </div>
       </div>
       <div className="px-48 mb-10 mt-10">
         <div className="mb-12">
-          <DataChart channel_name={slug as string}/>
+          <DataChart channel_name={slug as string} chartData={chartData}/>
         </div>
       </div>
     </>
   );
 }
+
+async function getGraphData(slug: string){
+  const encodedSlug = encodeURIComponent(slug as string);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  const response = await fetch(apiUrl+`/api/subscribers/${encodedSlug}`, {
+      headers: {
+          'Cache-Control': 'no-cache'
+      },
+      cache: 'no-cache'
+  });
+  if(!response.ok){
+      console.log(response.statusText);
+  }
+  return response.json();
+}
+
+async function getChannelData(slug: string){
+  const encodedSlug = encodeURIComponent(slug as string);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  const response = await fetch(apiUrl+`/api/channel/${encodedSlug}`, {
+      headers: {
+          'Cache-Control': 'no-cache'
+      },
+      cache: 'no-cache'
+  });
+  if(!response.ok){
+      console.log(response.statusText);
+  }
+  return response.json();
+}
+
+export default Page;

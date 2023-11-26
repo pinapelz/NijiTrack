@@ -5,7 +5,7 @@ import math
 from datetime import datetime, timedelta
 import numpy as np
 
-def plot_subscriber_count_over_time(server, table_name, gtitle = "Subscriber Count Over Time for Nijisanji Members",
+def plot_subscriber_count_over_time(server, table_name, gtitle = "Subscriber Count Over Time for Phase Connect Members",
                                     overrideQuery = None, markers = "lines", exclude_channels = []):
     warnings.filterwarnings('ignore')  # Ignore pandas warning regarding pyodbc
     query = f"SELECT name, subscriber_count, timestamp, channel_id FROM {table_name} ORDER by timestamp DESC" if overrideQuery is None else overrideQuery

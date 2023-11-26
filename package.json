@@ -24,6 +24,7 @@
     "react": "^18",
     "react-bootstrap": "^2.9.1",
     "react-chartjs-2": "^5.2.0",
+    "react-charts": "3.0.0-beta.57",
     "react-dom": "^18",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7"

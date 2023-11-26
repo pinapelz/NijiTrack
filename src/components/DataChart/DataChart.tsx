@@ -1,5 +1,4 @@
-"use client";
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -24,55 +23,13 @@ ChartJS.register(
 );
 
 
-
-
-
-interface Dataset {
-  label: string;
-  data: number[];
-  borderColor: string;
-  backgroundColor: string;
-}
-
-interface DataChartResponseProps {
-  labels: string[];
-  datasets: Dataset[];
-}
-
 interface DataChartProps {
-  channel_name: string;
-  requestUrl?: string;
+  channel_name?: string;
+  chartData?: any;
   graphTitle?: string;
 }
 
-const DataChart: React.FC<DataChartProps> = ({ channel_name, requestUrl, graphTitle }) => {
-  const [data, setData] = useState<DataChartResponseProps | null>();
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(requestUrl || `${apiUrl}/api/subscribers/${channel_name}`);
-        const json = await response.json();
-        setData({
-          labels: json.labels,
-          datasets: [
-            {
-              label: 'Subscriber Count',
-              data: json.datasets,
-              borderColor: 'rgb(255, 99, 132)',
-              backgroundColor: 'rgba(255, 99, 132, 0.5)',
-            },
-          ],
-        });
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, [apiUrl, channel_name, requestUrl]);
-
+const DataChart: React.FC<DataChartProps> = ({ channel_name, chartData, graphTitle }) => {
   const options = {
     responsive: true,
     plugins: {
@@ -97,9 +54,18 @@ const DataChart: React.FC<DataChartProps> = ({ channel_name, requestUrl, graphTi
     }
   };
 
-  if (!data) {
-    return <div>Loading...</div>;
+  const data = {
+    labels: chartData.labels,
+    datasets: [
+      {
+        label: 'Subscriber Count',
+        data: chartData.datasets,
+        borderColor: 'rgb(255, 99, 132)',
+        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      },
+    ],
   }
+
 
   return <Line options={options} data={data} />;
 };
