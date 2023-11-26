@@ -1,4 +1,4 @@
-# [NijiTrack](https://nijitracker.com/)
+# [NijiTrack](https://phase-tracker.com)
 
 Historical subscriber count tracker for any subset of YouTube channels. Flask backend and NextJS frontend for visualization.
 
