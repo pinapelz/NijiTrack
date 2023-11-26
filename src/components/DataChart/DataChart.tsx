@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,9 +8,8 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -22,52 +21,62 @@ ChartJS.register(
   Legend
 );
 
-
 interface DataChartProps {
-  channel_name?: string;
   chartData?: any;
   graphTitle?: string;
+  fullData?: boolean;
+  overrideBorderColor?: string
+  overrideBGColor?: string
 }
 
-const DataChart: React.FC<DataChartProps> = ({ channel_name, chartData, graphTitle }) => {
+const DataChart: React.FC<DataChartProps> = ({
+  chartData,
+  graphTitle,
+  fullData,
+  overrideBGColor,
+  overrideBorderColor
+}) => {
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: 'top' as const,
+        position: "top" as const,
       },
       title: {
         display: true,
-        text: graphTitle || 'Historical Subscriber Data',
+        text: graphTitle || "Historical Subscriber Data",
         font: {
-          size: 18
-        }
+          size: 18,
+        },
       },
     },
     scales: {
       x: {
         ticks: {
           autoSkip: true,
-          maxTicksLimit: 10
-        }
-      }
-    }
+          maxTicksLimit: 10,
+        },
+      },
+    },
   };
 
   const data = {
     labels: chartData.labels,
     datasets: [
       {
-        label: 'Subscriber Count',
+        label: "Subscriber Count",
         data: chartData.datasets,
-        borderColor: 'rgb(255, 99, 132)',
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        borderColor: overrideBorderColor||"rgb(255, 99, 132)",
+        backgroundColor: overrideBGColor||"rgba(255, 99, 132, 0.5)",
       },
     ],
+  };
+
+  if (!fullData) {
+    return <Line options={options} data={data} />;
+  } else {
+    return <Line options={options} data={chartData} />;
   }
-
-
-  return <Line options={options} data={data} />;
 };
 
 export default DataChart;

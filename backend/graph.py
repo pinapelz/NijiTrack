@@ -1,9 +1,6 @@
 import plotly.graph_objs as go
 import pandas as pd
 import warnings
-import math
-from datetime import datetime, timedelta
-import numpy as np
 
 def plot_subscriber_count_over_time(server, table_name, gtitle = "Subscriber Count Over Time for Phase Connect Members",
                                     overrideQuery = None, markers = "lines", exclude_channels = []):
@@ -21,8 +18,8 @@ def plot_subscriber_count_over_time(server, table_name, gtitle = "Subscriber Cou
             showlegend = True))
     fig.update_layout(
         title = {'text': gtitle, 'x': 0.5, 'xanchor': 'center',
-                 'yanchor': 'top', 'font': {'family': 'Arial', 'size': 30}},
-        xaxis_title = "Timestamp",
+                 'yanchor': 'top', 'font': {'family': 'Droid Sans', 'size': 30}},
+        xaxis_title = "Date",
         yaxis_title = "Subscribers",
         legend = dict(font = dict(size = 16), title = dict(text = "Channels")),
         height = 950,

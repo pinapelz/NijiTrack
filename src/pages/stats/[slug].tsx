@@ -1,9 +1,9 @@
-import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import "../../app/globals.css";
 import TitleBar from "../../components/TitleBar/TitleBar";
 import { ChannelCard } from "@/components/channel-card";
 import DataChart from "@/components/DataChart/DataChart";
+import Footer from "@/components/Footer/Footer";
 
 interface ChannelDataProp {
   channel_name: string;
@@ -26,17 +26,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const chartData = await getGraphData(slug as string);
   const channelData = await getChannelData(slug as string);
+  const sevenDayGraphData = await get7DGraphData(slug as string);
 
   return {
     props: {
       chartData,
       channelData,
-      slug
+      slug,
+      sevenDayGraphData
     },
   };
 };
 
-function Page({ chartData, channelData, slug }: { chartData: GraphDataProp, channelData: ChannelDataProp, slug: string }) {
+function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: GraphDataProp, channelData: ChannelDataProp, sevenDayGraphData: GraphDataProp, slug: string }) {
   return (
     <>
       <TitleBar title={slug as string} redirectUrl="/" showHomeButton backgroundColor="black" />
@@ -56,9 +58,13 @@ function Page({ chartData, channelData, slug }: { chartData: GraphDataProp, chan
       </div>
       <div className="px-48 mb-10 mt-10">
         <div className="mb-12">
-          <DataChart channel_name={slug as string} chartData={chartData}/>
+          <DataChart overrideBGColor="black" overrideBorderColor="black" chartData={chartData}/>
+        </div>
+        <div className="mb-12">
+          <DataChart chartData={sevenDayGraphData} overrideBGColor="black" overrideBorderColor="black" graphTitle="7 Day Historical"/>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
@@ -92,5 +98,21 @@ async function getChannelData(slug: string){
   }
   return response.json();
 }
+
+async function get7DGraphData(slug: string){
+  const encodedSlug = encodeURIComponent(slug as string);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  const response = await fetch(apiUrl+`/api/subscribers/${encodedSlug}/7d`, {
+      headers: {
+          'Cache-Control': 'no-cache'
+      },
+      cache: 'no-cache'
+  });
+  if(!response.ok){
+      console.log(response.statusText);
+  }
+  return response.json();
+}
+
 
 export default Page;
