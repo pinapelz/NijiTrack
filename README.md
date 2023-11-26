@@ -1,9 +1,8 @@
-# [NijiTrack](https://phase-tracker.com)
+# Nijitrack
 
 Historical subscriber count tracker for any subset of YouTube channels. Flask backend and NextJS frontend for visualization.
 
-This was originally made with the intention of tracking the subscriber count of Virtual YouTubers in the Nijisanji organization, but can be used for any set of channels.
-
+This code is current deployed as [PhaseTracker](https://phase-tracker.com). Collecting the subscriber data for members of Phase Connect.
 
 # Backend:
 Below are the steps to set up the flask backend for data collection and serving data through a web server (`/backend` folder of repo)
