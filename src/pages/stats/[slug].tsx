@@ -45,7 +45,7 @@ function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: 
       <Head>
         <title>{slug as string} - PhaseTracker</title>
         <meta property="og:title" content={`${slug as string} - PhaseTracker`}/>
-        <meta name="description" content={`${channelData.sub_org} - ${channelData.subscribers}`} />
+        <meta name="description" content={`Belonging to ${channelData.sub_org} with ${channelData.subscribers} subscribers`} />
         <meta name="og:description" content={`${channelData.sub_org} - ${channelData.subscribers}`} />
         <meta property="og:image" content={`${channelData.profile_pic}`}/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
