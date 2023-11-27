@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'PhaseTracker - Phase Connect Subscriber Tracker',
-  description: 'Nijitracker, historical subscriber data for members of Phase Connect',
+  description: 'PhaseTracker, historical subscriber data for members of Phase Connect',
 }
 
 export default function RootLayout({

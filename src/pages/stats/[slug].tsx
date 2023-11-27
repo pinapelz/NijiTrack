@@ -4,6 +4,7 @@ import TitleBar from "../../components/TitleBar/TitleBar";
 import { ChannelCard } from "@/components/channel-card";
 import DataChart from "@/components/DataChart/DataChart";
 import Footer from "@/components/Footer/Footer";
+import Head from 'next/head'
 
 interface ChannelDataProp {
   channel_name: string;
@@ -41,6 +42,15 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: GraphDataProp, channelData: ChannelDataProp, sevenDayGraphData: GraphDataProp, slug: string }) {
   return (
     <>
+      <Head>
+        <title>{slug as string} - PhaseTracker</title>
+        <meta property="og:title" content={`${slug as string} - PhaseTracker`}/>
+        <meta name="description" content={`${channelData.sub_org} - ${channelData.subscribers}`} />
+        <meta name="og:description" content={`${channelData.sub_org} - ${channelData.subscribers}`} />
+        <meta property="og:image" content={`${channelData.profile_pic}`}/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <meta name="author" content="Pinapelz"></meta>
+      </Head>
       <TitleBar title={slug as string} redirectUrl="/" showHomeButton backgroundColor="black" />
       <div className="flex justify-center">
         <div className="flex flex-col items-center">
