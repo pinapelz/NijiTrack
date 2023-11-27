@@ -71,8 +71,7 @@ def get_channel_information(channel_name):
             return ((subscriber_count // 1000000) + 1) * 1000000
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
     data = server.execute_query("SELECT * FROM subscriber_data WHERE name = %s", (channel_name,))
-    channel_data = {"channel_name":data[0][3], "profile_pic": data[0][2], "subscribers": data[0][4], "sub_org": data[0][5], "video_count": data[0][6]}
-
+    channel_data = {"channel_id":data[0][1],"channel_name":data[0][3], "profile_pic": data[0][2], "subscribers": data[0][4], "sub_org": data[0][5], "video_count": data[0][6]}
     historical_data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s", (channel_name,))
     current_subscriber_count = data[0][4]
     subscriber_points = []

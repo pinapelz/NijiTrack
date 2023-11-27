@@ -5,8 +5,10 @@ import { ChannelCard } from "@/components/channel-card";
 import DataChart from "@/components/DataChart/DataChart";
 import Footer from "@/components/Footer/Footer";
 import Head from 'next/head'
+import { channel } from "diagnostics_channel";
 
 interface ChannelDataProp {
+  channel_id: string;
   channel_name: string;
   profile_pic: string;
   subscribers: number;
@@ -55,6 +57,7 @@ function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: 
       <div className="flex justify-center">
         <div className="flex flex-col items-center">
             <ChannelCard
+              channel_id={channelData.channel_id}
               name={channelData.channel_name}
               avatarUrl={channelData.profile_pic}
               subscriberCount={channelData.subscribers}

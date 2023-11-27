@@ -3,6 +3,7 @@ import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 
 interface ChannelCardProps {
+  channel_id: string
   name: string
   avatarUrl: string
   subscriberCount: number
@@ -14,7 +15,7 @@ interface ChannelCardProps {
 }
 
 export function ChannelCard(props: ChannelCardProps) {
-  const { name, avatarUrl, subscriberCount, videoCount, suborg, nextMilestone, nextMilestoneDays, nextMilestoneDate } = props
+  const { channel_id, name, avatarUrl, subscriberCount, videoCount, suborg, nextMilestone, nextMilestoneDays, nextMilestoneDate } = props
   return (
     <Card className="w-[500px] shadow-lg rounded-lg overflow-hidden mt-4 py-4">
       <CardHeader>
@@ -24,7 +25,7 @@ export function ChannelCard(props: ChannelCardProps) {
             <AvatarFallback>PR</AvatarFallback>
           </Avatar>
           <div>
-            <CardTitle>{name}</CardTitle>
+           <a className="hover:underline" href={`https://youtube.com/channel/${channel_id}`}><CardTitle>{name}</CardTitle></a>
             <Badge variant="secondary">{suborg}</Badge>
           </div>
         </div>
