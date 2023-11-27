@@ -55,7 +55,7 @@ def get_local_channels(path: str = "data"):
         raise Exception("Local channel data not found")
     with open(path, "r", encoding="utf-8") as file:
         rows = file.read().splitlines()
-        return [tuple(row.split(",")) for row in rows]
+        return [tuple(row.split(":")) for row in rows]
 
 
 def check_diff_refresh():

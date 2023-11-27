@@ -37,16 +37,22 @@ class YouTubeAPI(WebAPI):
             snippet_list = snippet['items']
             for i in range(len(stats_list)):
                 try:
+                    # group/sub_org is used to further divide channels into subsets (sorta like teams)
+                    # can't think of a better match via YouTube API rn other than customUrl
                     data_entry = {'english_name': channel_names[i], 'id': channel_ids[i],
                                   'subscriber_count':
-                                      self._search_matching_id(channel_ids[i], stats_list)[
-                                          'statistics']['subscriberCount'], 'view_count':
-                                      self._search_matching_id(channel_ids[i], stats_list)[
-                                          'statistics']['viewCount'], 'photo':
-                                      self._search_matching_id(channel_ids[i], snippet_list)[
-                                          'snippet']['thumbnails']['default']['url'], 'description':
-                                      self._search_matching_id(channel_ids[i], snippet_list)[
-                                          'snippet']['description']}
+                                        self._search_matching_id(channel_ids[i], stats_list)['statistics']['subscriberCount'], 
+                                    'view_count':
+                                        self._search_matching_id(channel_ids[i], stats_list)['statistics']['viewCount'],
+                                    'photo': 
+                                        self._search_matching_id(channel_ids[i], snippet_list)['snippet']['thumbnails']['default']['url'],
+                                    'description': 
+                                        self._search_matching_id(channel_ids[i], snippet_list)['snippet']['description'],
+                                    'group': 
+                                        self._search_matching_id(channel_ids[i], snippet_list)['snippet']['customUrl'],
+                                    'video_count':
+                                        self._search_matching_id(channel_ids[i], stats_list)['statistics']['videoCount']
+                                          }
                     data.append(data_entry)
                 except TypeError:
                     print("Error NoneType: " + str(channel_ids[i]))
