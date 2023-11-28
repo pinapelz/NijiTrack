@@ -97,7 +97,8 @@ def get_channel_information(channel_name):
         model.fit(X, y)
         next_milestone = find_next_milestone(current_subscriber_count)
         days_until_next_milestone = (next_milestone - model.intercept_) / model.coef_
-        next_milestone_date = (df.index[0] + pandas.Timedelta(days=int(days_until_next_milestone))).date()
+        days_until_next_milestone_scalar = int(days_until_next_milestone[0])
+        next_milestone_date = (df.index[0] + pandas.Timedelta(days=days_until_next_milestone_scalar)).date()
         time_until_next_milestone = (next_milestone_date - datetime.datetime.now().date()).days
         channel_data["next_milestone_date"] = str(next_milestone_date)
         channel_data["days_until_next_milestone"] = str(time_until_next_milestone)
