@@ -31,10 +31,11 @@ def api_subscribers():
 def api_subscribers_channel(channel_name):
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
     data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s", (channel_name,))
+    sorted_data = sorted(data, key=lambda row: row[5].strftime("%Y-%m-%d"))
     labels = []
     data_points = []
     seen_dates = set()
-    for row in data:
+    for row in sorted_data:
         date_string = row[5].strftime("%Y-%m-%d")
         if date_string in seen_dates:
             continue
@@ -48,10 +49,11 @@ def api_subscribers_channel(channel_name):
 def api_subscribers_channel_7d(channel_name):
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
     data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s", (channel_name,))
+    sorted_data = sorted(data, key=lambda row: row[5].strftime("%Y-%m-%d"))
     labels = []
     data_points = []
     seen_dates = set()
-    for row in data:
+    for row in sorted_data:
         date_string = row[5].strftime("%Y-%m-%d")
         if date_string in seen_dates:
             continue
@@ -105,6 +107,13 @@ def get_channel_information(channel_name):
         channel_data["days_until_next_milestone"] = "N/A"
         channel_data["next_milestone"] = "N/A"
     return jsonify(channel_data)
+
+@app.route("/api/announcement")
+def api_announcement():
+    """
+    Can be used to show a particular message/error on the NEXT interface
+    """
+    announcement_data = {"message": "None", "show_message": False} # stub TODO
 
 @app.errorhandler(404)
 def not_found(error):
