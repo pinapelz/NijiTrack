@@ -110,6 +110,8 @@ def get_channel_information(channel_name):
         days_until_next_milestone_scalar = int(days_until_next_milestone[0])
         next_milestone_date = (df.index[0] + pandas.Timedelta(days=days_until_next_milestone_scalar)).date()
         time_until_next_milestone = (next_milestone_date - datetime.datetime.now().date()).days
+        if time_until_next_milestone < 0:
+            raise OverflowError
         channel_data["next_milestone_date"] = str(next_milestone_date)
         channel_data["days_until_next_milestone"] = str(time_until_next_milestone)
         channel_data["next_milestone"] = str(next_milestone)
