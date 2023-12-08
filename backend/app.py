@@ -14,6 +14,16 @@ app = Flask(__name__)
 CONFIG = fs.load_config("config.ini")
 CORS(app)
 
+# Optional setting to use any of the custom options below
+START_DATE = "2023-04-01" # 2023 April 1st
+
+# Do not include datapoints before the START_DATE for any /api/subscribers/ endpoint
+# For when you only want to serve actual data you collected at those specific endpoints
+ALL_EXCLUDE_MANUAL_DATA = False
+
+# Do not include datapoints before the START_DATE for any /api/subscribers/<channel_id> endpoint
+# For when you only want to serve actual data you collected at those specific endpoints
+INDIVIDUAL_EXCLUDE_MANUAL_DATA = True
 
 @app.route("/")
 def index():
@@ -30,7 +40,7 @@ def api_subscribers():
 @app.route("/api/subscribers/<channel_name>")
 def api_subscribers_channel(channel_name):
     server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
-    data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s", (channel_name,))
+    data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s AND timestamp > %s", (channel_name, START_DATE))
     sorted_data = sorted(data, key=lambda row: row[5].strftime("%Y-%m-%d"))
     labels = []
     data_points = []
