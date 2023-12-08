@@ -13,7 +13,7 @@ const Footer = () => {
             <br/>
             This page is in now way affiliated with Phase Connect or with any of the channels listed here.
             <br/>
-            Date Started: 2023-04-01
+            Data Collection Started: 2022-04-01 (Earlier data may not be fully accurate)
         </p>
         <p className="p-4">
             <a className="hover:underline text-bold" href="https://github.com/pinapelz/Nijitrack">Source Code</a><br/>
