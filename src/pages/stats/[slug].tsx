@@ -84,7 +84,7 @@ function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: 
 
 async function getGraphData(slug: string){
   const encodedSlug = encodeURIComponent(slug as string);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
   const response = await fetch(apiUrl+`/api/subscribers/${encodedSlug}`, {
       headers: {
           'Cache-Control': 'no-cache'
@@ -99,7 +99,7 @@ async function getGraphData(slug: string){
 
 async function getChannelData(slug: string){
   const encodedSlug = encodeURIComponent(slug as string);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
   const response = await fetch(apiUrl+`/api/channel/${encodedSlug}`, {
       headers: {
           'Cache-Control': 'no-cache'
@@ -114,7 +114,7 @@ async function getChannelData(slug: string){
 
 async function get7DGraphData(slug: string){
   const encodedSlug = encodeURIComponent(slug as string);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
   const response = await fetch(apiUrl+`/api/subscribers/${encodedSlug}/7d`, {
       headers: {
           'Cache-Control': 'no-cache'
