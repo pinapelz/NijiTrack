@@ -2,7 +2,7 @@ import SubscriberTable, {SubscriberDataTableProp} from '../components/Subscriber
 import TitleBar from '../components/TitleBar/TitleBar';
 
 async function Home(){
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
     const data: SubscriberDataTableProp = await getData();
     return(
         <>
@@ -16,7 +16,7 @@ async function Home(){
 }
 
 async function getData(){
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
     const response = await fetch(apiUrl+'/api/subscribers', {
         headers: {
             'Cache-Control': 'no-cache'
