@@ -7,7 +7,7 @@ from sql.sql_handler import SQLHandler
 import fileutil as fs
 import datetime
 import pandas
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
 import numpy as np
 
 app = Flask(__name__)
@@ -100,8 +100,11 @@ def get_channel_information(channel_name):
     df = pandas.DataFrame(data=data)
     df['dates'] = pandas.to_datetime(df['dates'])
     df.set_index('dates', inplace=True)
+    df.sort_index(inplace=True)
+    three_months_ago = datetime.datetime.now() - datetime.timedelta(days=90)
+    df = df[df.index > three_months_ago]
     try:
-        model = LinearRegression()
+        model = Ridge(alpha=100)
         X = np.array(range(len(df))).reshape(-1, 1)
         y = df['subscribers']
         model.fit(X, y)
