@@ -5,7 +5,7 @@ import { ChannelCard } from "@/components/channel-card";
 import DataChart from "@/components/DataChart/DataChart";
 import Footer from "@/components/Footer/Footer";
 import Head from 'next/head'
-import { channel } from "diagnostics_channel";
+import Divider from "@/components/Divider/Divider";
 
 interface ChannelDataProp {
   channel_id: string;
@@ -69,6 +69,7 @@ function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: 
             />
         </div>
       </div>
+      <Divider text="Individual Data"/>
       <div className="px-48 mb-10 mt-10">
         <div className="mb-12">
           <DataChart overrideBGColor="black" overrideBorderColor="black" chartData={chartData}/>
@@ -84,7 +85,7 @@ function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: 
 
 async function getGraphData(slug: string){
   const encodedSlug = encodeURIComponent(slug as string);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
   const response = await fetch(apiUrl+`/api/subscribers/${encodedSlug}`, {
       headers: {
           'Cache-Control': 'no-cache'
@@ -99,7 +100,7 @@ async function getGraphData(slug: string){
 
 async function getChannelData(slug: string){
   const encodedSlug = encodeURIComponent(slug as string);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
   const response = await fetch(apiUrl+`/api/channel/${encodedSlug}`, {
       headers: {
           'Cache-Control': 'no-cache'
@@ -114,7 +115,7 @@ async function getChannelData(slug: string){
 
 async function get7DGraphData(slug: string){
   const encodedSlug = encodeURIComponent(slug as string);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL
   const response = await fetch(apiUrl+`/api/subscribers/${encodedSlug}/7d`, {
       headers: {
           'Cache-Control': 'no-cache'
