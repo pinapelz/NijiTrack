@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import Footer from '../components/Footer/Footer'
@@ -17,10 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Head>
+        <script defer src="https://analytics.moekyun.me/script.js" data-website-id="c9115390-947a-4077-b885-b136bb813e1a"></script>
+      </Head>
       <body className={inter.className}>{children}
       <Footer />
       </body>
-      <script defer src="https://analytics.moekyun.me/script.js" data-website-id="c9115390-947a-4077-b885-b136bb813e1a"></script>
     </html>
   )
 }
