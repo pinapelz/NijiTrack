@@ -8,7 +8,7 @@ This code is current deployed as [PhaseTracker](https://phase-tracker.com). Coll
 Below are the steps to set up the flask backend for data collection and serving data through a web server (`/backend` folder of repo)
 
 ### Dependencies
-- MariaDB or MySQL
+- PostgresSQL
 - Python 3.11+
 - Flask 2.1.2+ (Optional)
 
@@ -16,7 +16,11 @@ Below are the steps to set up the flask backend for data collection and serving 
 pip install -r requirements.txt
 ```
 ### Usage
-a. Fill in `config.json` with required info for API keys and SQL connection info
+a. Add the environment variables in the `.env.template`
+  - B2API fields are uncessary if you are not auto upload to Backblaze B2
+  - YouTube API not necessary unless you plan on tracking a non-Holodex subset of channels
+
+b. Specify trace colors in `member_color.py` (based on Channel Name)
 #### For collection using a set of channels belonging to a Virtual YouTuber organization listed on Holodex
 1. Edit main.py and edit `HOLODEX_ORG` to the organization name on Holodex and `ORG_MEMBER_COUNT` to the number of members that organization has
   - Overshooting the member count may lead to additional loop iterations, but in general there will be no problems
