@@ -1,5 +1,7 @@
 import React from 'react';
 import '../TitleBar/TitleBarStyle.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
 
 interface TitleBarProps {
     title: string;
@@ -17,8 +19,8 @@ const TitleBar: React.FC<TitleBarProps> = ({ title, redirectUrl, showHomeButton,
                         <span className="text-white text-4xl font-bold" style={{ fontFamily: 'Quantico, sans-serif' }}>{title}</span>
                     </a>
                     {showHomeButton && (
-                        <a href="/">
-                            <button className="bg-white text-black font-bold py-2 px-4 rounded-lg">Home</button>
+                        <a href="/" className='text-white text-3xl'>
+                            <FontAwesomeIcon icon={faHouse} />
                         </a>
                     )}
                 </div>
