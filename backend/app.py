@@ -3,15 +3,18 @@ Flask app for serving the static files
 """
 from flask import Flask, send_file, jsonify
 from flask_cors import CORS
-from sql.sql_handler import SQLHandler
+from sql.pg_handler import PostgresHandler
 import fileutil as fs
 import datetime
 import pandas
 from sklearn.linear_model import Ridge
 import numpy as np
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
-CONFIG = fs.load_config("config.ini")
 CORS(app)
 
 # Optional setting to use any of the custom options below
@@ -25,27 +28,42 @@ ALL_EXCLUDE_MANUAL_DATA = False
 # For when you only want to serve actual data you collected at those specific endpoints
 INDIVIDUAL_EXCLUDE_MANUAL_DATA = True
 
+def create_database_connection():
+    """
+    Creates a database connection using the environment variables
+    :param: auth_append: str = "" - If you want to use a different set of variables for persisitance of sessions
+    """
+    hostname = os.environ.get("POSTGRES_HOST")
+    user = os.environ.get("POSTGRES_USER")
+    password = os.environ.get("POSTGRES_PASSWORD")
+    database = os.environ.get("POSTGRES_DATABASE")
+    return PostgresHandler(host_name=hostname, username=user, password=password, database=database, port=5432)
+
 @app.route("/")
 def index():
-    return send_file("index.html")
+    try:
+        return send_file("index.html")
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @app.route("/api/subscribers")
 def api_subscribers():
-    server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
-    data = server.execute_query("SELECT * FROM subscriber_data INNER JOIN 24h_historical ON subscriber_data.channel_id = 24h_historical.channel_id ORDER BY subscriber_count DESC")
-    channel_data_list = [{"channel_name":row[3], "profile_pic": row[2], "subscribers": row[4], "sub_org": row[5], "video_count": row[6], "day_diff": int(row[4] - int(row[10]))} for row in data]
-    subscriber_data = {"timestamp": datetime.datetime.now(),"channel_data":channel_data_list}
+    server = create_database_connection()
+    query = 'SELECT sd.*, h.* FROM subscriber_data sd INNER JOIN "24h_historical" h ON sd.channel_id = h.channel_id ORDER BY sd.subscriber_count DESC'
+    data = server.execute_query(query)
+    channel_data_list = [{"channel_name": row[3], "profile_pic": row[2], "subscribers": row[4], "sub_org": row[5], "video_count": row[6], "day_diff": int(row[4] - int(row[10]))} for row in data]
+    subscriber_data = {"timestamp": datetime.datetime.now(), "channel_data": channel_data_list}
     return jsonify(subscriber_data)
 
 @app.route("/api/subscribers/<channel_name>")
 def api_subscribers_channel(channel_name):
-    server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
-    data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s AND timestamp > %s", (channel_name, START_DATE))
-    sorted_data = sorted(data, key=lambda row: row[5].strftime("%Y-%m-%d"))
+    server = create_database_connection()
+    query = "SELECT * FROM subscriber_data_historical WHERE name = %s AND timestamp > %s ORDER BY TO_CHAR(timestamp, 'YYYY-MM-DD')"
+    data = server.execute_query(query, (channel_name, START_DATE))
     labels = []
     data_points = []
     seen_dates = set()
-    for row in sorted_data:
+    for row in data:
         date_string = row[5].strftime("%Y-%m-%d")
         if date_string in seen_dates:
             continue
@@ -54,16 +72,15 @@ def api_subscribers_channel(channel_name):
         seen_dates.add(date_string)
     return jsonify({"labels": labels, "datasets": data_points})
 
-
 @app.route("/api/subscribers/<channel_name>/7d")
 def api_subscribers_channel_7d(channel_name):
-    server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
-    data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s", (channel_name,))
-    sorted_data = sorted(data, key=lambda row: row[5].strftime("%Y-%m-%d"))
+    server = create_database_connection()
+    query = "SELECT * FROM subscriber_data_historical WHERE name = %s ORDER BY TO_CHAR(timestamp, 'YYYY-MM-DD')"
+    data = server.execute_query(query, (channel_name,))
     labels = []
     data_points = []
     seen_dates = set()
-    for row in sorted_data:
+    for row in data:
         date_string = row[5].strftime("%Y-%m-%d")
         if date_string in seen_dates:
             continue
@@ -81,9 +98,10 @@ def get_channel_information(channel_name):
             return ((subscriber_count // 100000) + 1) * 100000
         else:
             return ((subscriber_count // 1000000) + 1) * 1000000
-    server = SQLHandler(CONFIG["SQL"]["host"], CONFIG["SQL"]["user"], CONFIG["SQL"]["password"], CONFIG["SQL"]["database"])
-    data = server.execute_query("SELECT * FROM subscriber_data WHERE name = %s", (channel_name,))
-    channel_data = {"channel_id":data[0][1],"channel_name":data[0][3], "profile_pic": data[0][2], "subscribers": data[0][4], "sub_org": data[0][5], "video_count": data[0][6]}
+    server = create_database_connection()
+    query = "SELECT * FROM subscriber_data WHERE name = %s"
+    data = server.execute_query(query, (channel_name,))
+    channel_data = {"channel_id": data[0][1], "channel_name": data[0][3], "profile_pic": data[0][2], "subscribers": data[0][4], "sub_org": data[0][5], "video_count": data[0][6]}
     historical_data = server.execute_query("SELECT * FROM subscriber_data_historical WHERE name = %s", (channel_name,))
     current_subscriber_count = data[0][4]
     subscriber_points = []
@@ -123,18 +141,14 @@ def get_channel_information(channel_name):
         channel_data["days_until_next_milestone"] = "N/A"
         channel_data["next_milestone"] = "N/A"
     return jsonify(channel_data)
-
 @app.route("/api/announcement")
 def api_announcement():
-    """
-    Can be used to show a particular message/error on the NEXT interface
-    """
-    announcement_data = {"message": "None", "show_message": False} # stub TODO
+    announcement_data = {"message": "None", "show_message": False}
+    return jsonify(announcement_data)
 
 @app.errorhandler(404)
 def not_found(error):
     return jsonify(error=str(error)), 404
 
-
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    app.run(debug=True)

@@ -58,22 +58,6 @@ def get_local_channels(path: str = "data"):
         return [tuple(row.split(":")) for row in rows]
 
 
-def check_diff_refresh():
-    if not os.path.exists(os.path.join("data", "last_refresh.txt")):
-        with open(
-            os.path.join("data", "last_refresh.txt"), "w", encoding="utf-8") as file:
-            file.write(time.strftime("%Y-%m-%d"))
-            return True
-    with open(os.path.join("data", "last_refresh.txt"), "r", encoding="utf-8") as file:
-        last_refresh = file.read()
-    if last_refresh != time.strftime("%Y-%m-%d"):
-        with open(
-            os.path.join("data", "last_refresh.txt"), "w", encoding="utf-8"
-        ) as file:
-            file.write(time.strftime("%Y-%m-%d"))
-        return True
-
-
 def update_data_files(url: str) -> None:
     # Updates the local txt channel data stored in data folder
     if not os.path.exists(os.path.join("data", "channels.txt")):
