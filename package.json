@@ -23,6 +23,7 @@
     "next": "14.0.3",
     "react": "^18",
     "react-bootstrap": "^2.9.1",
+    "react-burger-menu": "^3.0.9",
     "react-chartjs-2": "^5.2.0",
     "react-charts": "3.0.0-beta.57",
     "react-dom": "^18",
