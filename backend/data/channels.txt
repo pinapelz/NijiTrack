@@ -1,4 +1,0 @@
-# DELETE THIS: [Add new line delineated channels here]. One each line
-# DELETE THIS: ChannelName:
-# DELETE THIS: [Add new line delineated channels here]. One each line with channel id and name seperated by a colon
-# DELETE THIS: Channel_ID:Channel_Name

@@ -1,0 +1,3 @@
+[submodule "NijiTrack-API"]
+	path = NijiTrack-API
+	url = https://github.com/pinapelz/NijiTrack-API

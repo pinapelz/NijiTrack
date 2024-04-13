@@ -1,9 +1,0 @@
-{
-    "LIVE_COLUMNS": "id SERIAL PRIMARY KEY, channel_id VARCHAR(255), profile_pic VARCHAR(255), name VARCHAR(255), subscriber_count INT, suborg VARCHAR(255), video_count INT,  timestamp TIMESTAMP",
-    "LIVE_HEADER": "channel_id, profile_pic, name, subscriber_count, suborg, video_count, timestamp",
-    "DAILY_COLUMNS": "id SERIAL PRIMARY KEY, channel_id VARCHAR(255), sub_diff INT",
-    "DAILY_HEADER": "channel_id, sub_diff",
-    "HISTORICAL_COLUMNS": "id SERIAL PRIMARY KEY, channel_id VARCHAR(255), profile_pic VARCHAR(255), name VARCHAR(255), subscriber_count INT, timestamp TIMESTAMP",
-    "HISTORICAL_HEADER": "channel_id, profile_pic, name, subscriber_count, timestamp",
-    "HOLODEX_ORGS": "Phase%20Connect"
-}
