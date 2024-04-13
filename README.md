@@ -5,6 +5,8 @@ Historical subscriber count tracker for any subset of YouTube channels. Flask ba
 This code is current deployed as [PhaseTracker](https://phase-tracker.com). Collecting the subscriber data for members of Phase Connect.
 
 # Backend:
+The code in this repo is the frontend. The backend API is available as a submodule. You can find the repo [here](https://github.com/pinapelz/NijiTrack-API)
+
 Below are the steps to set up the flask backend for data collection and serving data through a web server (`/backend` folder of repo)
 
 ### Dependencies
