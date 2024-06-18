@@ -8,6 +8,7 @@ interface ChannelDataProp {
   sub_org: string;
   video_count: number;
   day_diff: number;
+  views: number;
 }
 
 interface SubscriberDataTableProp {
@@ -41,6 +42,9 @@ return (
                         </th>
                         <th scope="col" className="py-1 px-1 sm:px-3 hidden sm:table-cell">
                             VIDEO COUNT
+                        </th>
+                        <th scope="col" className="py-1 px-1 sm:px-3 hidden sm:table-cell">
+                            VIEW COUNT
                         </th>
                         <th scope="col" className="py-1 px-1 sm:px-3">
                             SUBSCRIBERS

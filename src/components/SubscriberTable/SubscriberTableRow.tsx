@@ -25,6 +25,7 @@ const ChannelRow: React.FC<ChannelRowProps> = ({ channel, index }) => (
         </td>
         <td className="py-3 px-1 sm:px-3 hidden sm:table-cell">{channel.sub_org}</td>
         <td className="py-3 px-1 sm:px-3 hidden sm:table-cell">{channel.video_count}</td>
+        <td className="py-3 px-1 sm:px-3 hidden sm:table-cell">{Number(channel.views).toLocaleString()}</td>
         <td className="py-3 px-1 sm:px-3">{Number(channel.subscribers).toLocaleString()}</td>
         <td className="py-3 px-1 sm:px-3">
             {channel.day_diff > 0 ? `+${Number(channel.day_diff).toLocaleString()}` : Number(channel.day_diff).toLocaleString()}
