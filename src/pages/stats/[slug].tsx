@@ -62,6 +62,7 @@ function Page({ chartData, channelData, sevenDayGraphData, slug }: { chartData: 
               avatarUrl={channelData.profile_pic}
               subscriberCount={channelData.subscribers}
               videoCount={channelData.video_count}
+              viewCount={channelData.view_count}
               suborg={channelData.sub_org}
               nextMilestone={channelData.next_milestone}
               nextMilestoneDays={channelData.days_until_next_milestone}

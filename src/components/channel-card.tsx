@@ -8,6 +8,7 @@ interface ChannelCardProps {
   avatarUrl: string
   subscriberCount: number
   videoCount: number
+  viewCount: number
   suborg: string
   nextMilestone: string
   nextMilestoneDays: string
@@ -15,7 +16,7 @@ interface ChannelCardProps {
 }
 
 export function ChannelCard(props: ChannelCardProps) {
-  const { channel_id, name, avatarUrl, subscriberCount, videoCount, suborg, nextMilestone, nextMilestoneDays, nextMilestoneDate } = props
+  const { channel_id, name, avatarUrl, subscriberCount, videoCount, viewCount, suborg, nextMilestone, nextMilestoneDays, nextMilestoneDate } = props
   return (
     <Card className="w-[500px] shadow-lg rounded-lg overflow-hidden mt-4 py-4">
       <CardHeader>
@@ -33,11 +34,15 @@ export function ChannelCard(props: ChannelCardProps) {
       <CardContent className="px-4 py-2 space-y-4">
         <div className="flex flex-col items-center">
           <span className="text-l text-gray-600">Subscribers</span>
-            <span className="font-semibold">{subscriberCount.toLocaleString()}</span>
+            <span className="font-semibold">{Number(subscriberCount).toLocaleString()}</span>
         </div>
         <div className="flex flex-col items-center">
           <span className="text-l text-gray-600">Videos</span>
           <span className="font-semibold">{videoCount}</span>
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="text-l text-gray-600">View Count</span>
+          <span className="font-semibold">{Number(viewCount).toLocaleString()}</span>
         </div>
         <div className="flex flex-col items-center">
           <span className="text-l text-gray-600">Next Milestone</span>
