@@ -14,6 +14,7 @@ interface ChannelDataProp {
   subscribers: number;
   sub_org: string;
   video_count: number;
+  view_count: number;
   next_milestone: string;
   days_until_next_milestone: string;
   next_milestone_date: string;
