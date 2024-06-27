@@ -134,6 +134,7 @@ function Page({
 							milestones: milestoneData.milestones,
 						}}
 					/>
+					<p className="mt-2 font-semibold">For intervals which we did not record any data, the closest recorded datapoint is chosen</p>
 				</div>
 			</div>
 			<Footer />

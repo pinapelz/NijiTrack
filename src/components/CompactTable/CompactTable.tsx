@@ -30,7 +30,7 @@ const CompactTable: React.FC<CompactTableProps> = ({ tableData }) => {
 						{tableData.milestones.map((milestone, index) => (
 							<li
 								key={index}
-								className="text-gray-700 text-sm py-1 border-b border-gray-200"
+								className={`text-gray-700 text-sm py-1 border-b border-gray-200 ${Number(milestone) % 10000 !== 0 ? ' font-semibold' : ''}`}
 							>
 								{milestone.toLocaleString()}
 							</li>
