@@ -26,7 +26,7 @@ const DataTable = ({ channel_data, timestamp }: SubscriberDataTableProp) => {
 			<div className="text-center sm:mt-5">
 				<h1 className="text-2xl font-bold text-gray-800">Subscriber Count</h1>
 				<h2 className="text-xl text-gray-800">Click on a row to view more details!</h2>
-				<p className="text-gray-500 text-sm">Updated Hourly. Data Below Retrieved: {timestamp}</p>
+				<p className="text-gray-500 text-sm">Updated Hourly. Retrieved at: {timestamp}</p>
 			</div>
 			<div className="px-2 sm:px-48 py-4 sm:py-8 relative rounded-l text-left overflow-auto">
 				<table className="w-full text-m sm:text-xl text-black bg-white">
