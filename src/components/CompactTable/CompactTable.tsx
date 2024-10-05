@@ -9,7 +9,7 @@ interface CompactTableProps {
 
 const CompactTable: React.FC<CompactTableProps> = ({ tableData }) => {
 	return (
-		<div className="max-w-full mx-auto bg-gray-100 shadow-md rounded-lg overflow-hidden">
+		<div className="max-w-full mx-auto bg-gray-100 shadow-md overflow-hidden">
 			<div className="flex gap-x-4">
 				<div className="w-1/2 px-4 py-5">
 					<h2 className="text-lg font-semibold text-gray-900">Dates</h2>

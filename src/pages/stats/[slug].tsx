@@ -108,7 +108,7 @@ function Page({
 				/>
 			</div>
 			<div className="hidden sm:block">
-				<Divider text="Individual Data" />
+				<Divider text="Individual Data" description="All verified collected datapoints by PhaseTracker. Numbers before data collection started not shown" />
 				<div className="px-48 mb-10 mt-10">
 					<div className="mb-12">
 						<DataChart
@@ -125,17 +125,16 @@ function Page({
 							graphTitle="7 Day Historical"
 						/>
 					</div>
-					<Divider text="Milestones" />
-					<div className="mb-12">
+				</div>
+				<Divider text="Milestones" description="Approximations are shown for milestones before data collection started" />
+					<div className="mb-12 mx-24">
 						<CompactTable
 							tableData={{
 								dates: milestoneData.dates,
 								milestones: milestoneData.milestones,
 							}}
 						/>
-						<p className="mt-2 font-semibold">For intervals which we did not record any data, the closest recorded datapoint is chosen</p>
 					</div>
-				</div>
 			</div>
 			<Footer />
 		</>
