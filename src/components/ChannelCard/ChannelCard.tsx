@@ -82,7 +82,7 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
         </p>
       </div>
       <button
-        onClick={() => console.log(`Navigate to channel ${channel_id}`)}
+        onClick={() => window.open(`https://youtube.com/channel/${channel_id}`, '_blank')}
         className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200"
       >
         View Channel on YouTube

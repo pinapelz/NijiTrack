@@ -108,7 +108,7 @@ function Page({
 				/>
 			</div>
 			<div className="hidden sm:block">
-				<Divider text="Individual Data" description="All verified collected datapoints by PhaseTracker. Numbers before data collection started not shown" />
+				<Divider text="Individual Data" description="Data before collection start date are not shown" />
 				<div className="px-48 mb-10 mt-10">
 					<div className="mb-12">
 						<DataChart
