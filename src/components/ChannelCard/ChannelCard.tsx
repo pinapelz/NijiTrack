@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import Countdown from '../Countdown';
 
 type ChannelCardProps = {
   channel_id: string;
@@ -78,8 +79,11 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
           Next Milestone: {Number(nextMilestone).toLocaleString()}
         </p>
         <p className="text-xs sm:text-sm text-gray-300">
-          Estimated in {nextMilestoneDays} days ({nextMilestoneDate})
+          Estimated Date: {nextMilestoneDate}
         </p>
+        <div className="flex justify-center">
+          <Countdown targetDate={nextMilestoneDate} />
+        </div>
       </div>
       <button
         onClick={() => window.open(`https://youtube.com/channel/${channel_id}`, '_blank')}
