@@ -4,7 +4,7 @@ import CompactTable from "@/components/CompactTable/CompactTable";
 import DataChart from "@/components/DataChart/DataChart";
 import Divider from "@/components/Divider/Divider";
 import Footer from "@/components/Footer/Footer";
-import { ChannelCard } from "@/components/channel-card";
+import ChannelCard from "@/components/ChannelCard/ChannelCard"
 import Head from "next/head";
 import TitleBar from "../../components/TitleBar/TitleBar";
 
@@ -93,48 +93,48 @@ function Page({
 				showHomeButton
 				backgroundColor="black"
 			/>
-			<div className="flex justify-center">
-				<div className="flex flex-col items-center">
-					<ChannelCard
-						channel_id={channelData.channel_id}
-						name={channelData.channel_name}
-						avatarUrl={channelData.profile_pic}
-						subscriberCount={channelData.subscribers}
-						videoCount={channelData.video_count}
-						viewCount={channelData.view_count}
-						suborg={channelData.sub_org}
-						nextMilestone={channelData.next_milestone}
-						nextMilestoneDays={channelData.days_until_next_milestone}
-						nextMilestoneDate={channelData.next_milestone_date}
-					/>
-				</div>
+			<div className="flex justify-center px-12 ">
+				<ChannelCard
+					channel_id={channelData.channel_id}
+					name={channelData.channel_name}
+					avatarUrl={channelData.profile_pic}
+					subscriberCount={channelData.subscribers}
+					videoCount={channelData.video_count}
+					viewCount={channelData.view_count}
+					suborg={channelData.sub_org}
+					nextMilestone={channelData.next_milestone}
+					nextMilestoneDays={channelData.days_until_next_milestone}
+					nextMilestoneDate={channelData.next_milestone_date}
+				/>
 			</div>
-			<Divider text="Individual Data" />
-			<div className="px-48 mb-10 mt-10">
-				<div className="mb-12">
-					<DataChart
-						overrideBGColor="black"
-						overrideBorderColor="black"
-						chartData={chartData}
-					/>
-				</div>
-				<div className="mb-12">
-					<DataChart
-						chartData={sevenDayGraphData}
-						overrideBGColor="black"
-						overrideBorderColor="black"
-						graphTitle="7 Day Historical"
-					/>
-				</div>
-				<Divider text="Milestones" />
-				<div className="mb-12">
-					<CompactTable
-						tableData={{
-							dates: milestoneData.dates,
-							milestones: milestoneData.milestones,
-						}}
-					/>
-					<p className="mt-2 font-semibold">For intervals which we did not record any data, the closest recorded datapoint is chosen</p>
+			<div className="hidden sm:block">
+				<Divider text="Individual Data" />
+				<div className="px-48 mb-10 mt-10">
+					<div className="mb-12">
+						<DataChart
+							overrideBGColor="black"
+							overrideBorderColor="black"
+							chartData={chartData}
+						/>
+					</div>
+					<div className="mb-12">
+						<DataChart
+							chartData={sevenDayGraphData}
+							overrideBGColor="black"
+							overrideBorderColor="black"
+							graphTitle="7 Day Historical"
+						/>
+					</div>
+					<Divider text="Milestones" />
+					<div className="mb-12">
+						<CompactTable
+							tableData={{
+								dates: milestoneData.dates,
+								milestones: milestoneData.milestones,
+							}}
+						/>
+						<p className="mt-2 font-semibold">For intervals which we did not record any data, the closest recorded datapoint is chosen</p>
+					</div>
 				</div>
 			</div>
 			<Footer />
