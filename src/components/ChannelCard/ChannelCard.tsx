@@ -81,7 +81,7 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
         <p className="text-xs sm:text-sm text-gray-300">
           Estimated Date: {nextMilestoneDate}
         </p>
-        <div className="flex justify-center">
+        <div className="flex justify-center sm:p-4">
           <Countdown targetDate={nextMilestoneDate} />
         </div>
       </div>
