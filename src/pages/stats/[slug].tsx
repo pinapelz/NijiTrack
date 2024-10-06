@@ -7,7 +7,6 @@ import Footer from "@/components/Footer/Footer";
 import ChannelCard from "@/components/ChannelCard/ChannelCard"
 import Head from "next/head";
 import TitleBar from "../../components/TitleBar/TitleBar";
-import Countdown from "@/components/Countdown";
 
 interface ChannelDataProp {
 	channel_id: string;
