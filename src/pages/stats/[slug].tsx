@@ -19,6 +19,9 @@ interface ChannelDataProp {
     next_milestone: string;
     days_until_next_milestone: string;
     next_milestone_date: string;
+    diff_1d: number;
+    diff_7d: number;
+    diff_30d: number;
 }
 
 interface GraphDataProp {
