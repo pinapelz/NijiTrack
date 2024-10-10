@@ -77,7 +77,9 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
                 </div>
                 <div>
                     <p className="text-lg sm:text-xl font-bold text-white">
-                        {diff_1d.toLocaleString()}
+                        {diff_1d > 0
+                            ? `+${diff_1d.toLocaleString()}`
+                            : diff_1d.toLocaleString()}
                     </p>
                     <p className="text-xs sm:text-sm text-gray-400">
                         24 Hour Change
@@ -85,7 +87,9 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
                 </div>
                 <div>
                     <p className="text-lg sm:text-xl font-bold text-white">
-                        {diff_7d.toLocaleString()}
+                        {diff_7d > 0
+                            ? `+${diff_7d.toLocaleString()}`
+                            : diff_7d.toLocaleString()}
                     </p>
                     <p className="text-xs sm:text-sm text-gray-400">
                         7 Day Change
@@ -93,7 +97,9 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
                 </div>
                 <div>
                     <p className="text-lg sm:text-xl font-bold text-white">
-                        {diff_30d.toLocaleString()}
+                        {diff_30d > 0
+                            ? `+${diff_30d.toLocaleString()}`
+                            : diff_30d.toLocaleString()}
                     </p>
                     <p className="text-xs sm:text-sm text-gray-400">
                         30 Day Change
