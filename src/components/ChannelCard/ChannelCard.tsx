@@ -74,14 +74,14 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
           </p>
         </div>
       </div>
-      <div className="bg-gray-700 rounded-lg p-4 mb-6">
+      <div className="bg-gray-700 rounded-lg p-4 sm:p-0 mb-6">
         <p className="text-md sm:text-lg font-semibold text-white">
           Next Milestone: {Number(nextMilestone).toLocaleString()}
         </p>
         <p className="text-xs sm:text-sm text-gray-300">
           Estimated Date: {nextMilestoneDate}
         </p>
-        <div className="flex justify-center sm:p-4">
+        <div className="flex justify-center sm:p-2">
           <Countdown targetDate={nextMilestoneDate} />
         </div>
       </div>
