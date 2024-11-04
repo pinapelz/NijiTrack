@@ -142,6 +142,11 @@ const TitleBar: React.FC<TitleBarProps> = ({
                             About
                         </li>
                     </Link>
+                    <Link href="https://github.com/pinapelz/Phase-Tracker-Data">
+                        <li className="p-4 hover:bg-gray-700 transition-colors duration-300">
+                            Data
+                        </li>
+                    </Link>
                 </ul>
 
                 <ul className="mt-4 text-xl">
