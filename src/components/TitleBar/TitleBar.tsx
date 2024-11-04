@@ -122,7 +122,11 @@ const TitleBar: React.FC<TitleBarProps> = ({
                 className={`fixed top-0 left-0 h-screen bg-black text-white shadow-lg transition-transform transform ${
                     isSidebarOpen ? "translate-x-0" : "-translate-x-full"
                 } duration-500 ease-in-out z-50`}
-                style={{ width: "16rem", fontFamily: "Quantico, sans-serif" }}
+                style={{
+                    width: "16rem",
+                    fontFamily: "Quantico, sans-serif",
+                    overflowY: "auto",
+                }}
             >
                 <div className="p-4 text-3xl font-bold border-b border-gray-700">
                     PhaseTracker
@@ -202,8 +206,6 @@ const TitleBar: React.FC<TitleBarProps> = ({
                     )}
                 </ul>
             </div>
-
-            {/* Content overlay when sidebar is open */}
             {isSidebarOpen && (
                 <div
                     className="fixed top-0 left-0 w-full h-full bg-black opacity-50 transition-opacity duration-500"

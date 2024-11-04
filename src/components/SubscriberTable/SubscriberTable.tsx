@@ -26,7 +26,10 @@ const DataTable = ({ channel_data, timestamp }: SubscriberDataTableProp) => {
 
     return (
         <>
-            <div className="text-center sm:mt-5">
+            <div
+                className="text-center sm:mt-5"
+                style={{ fontFamily: "Quantico, sans-serif" }}
+            >
                 <h1 className="text-2xl font-bold text-gray-800">
                     Subscriber Count
                 </h1>
