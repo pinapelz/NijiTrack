@@ -26,7 +26,6 @@ const TitleBar: React.FC<TitleBarProps> = ({
   showHomeButton,
   backgroundColor,
 }) => {
-  const hideFromSidebar = ["Fuura Yuri"]; // List of names to hide (e.g., due to graduation)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [groupingData, setPhaseData] = useState<{
@@ -165,7 +164,6 @@ const TitleBar: React.FC<TitleBarProps> = ({
                 {!collapsedSections[group] && (
                   <ul className="ml-4 mt-2">
                     {members
-                      .filter((member) => !hideFromSidebar.includes(member))
                       .map((member) => (
                         <a href={`/stats/${member}`} key={member}>
                           <li
