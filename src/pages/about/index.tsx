@@ -119,6 +119,12 @@ const About: React.FC = () => {
                             also take some time for the system to notice that
                             they are a part of Phase Connect.
                         </p>
+                        <h3 className="text-xl mt-2 font-semibold mb-2">Note on Phase Invaders</h3>
+                        <p className="text-gray-700">
+                            Members of Phase Invaders join with already established communities/channels. I initially did backtrack
+                            and add some data for original members of Invaders, however going forwardm, there will only be data
+                            from the time they join Phase.
+                        </p>
                     </div>
                     <div className="border-b pb-4">
                         <h2 className="text-2xl font-semibold mb-2">
