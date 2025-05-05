@@ -7,7 +7,8 @@ const nextConfig = {
                 hostname: "yt3.ggpht.com",
                 port: '',
             }
-        ]
+        ],
+        unoptimized: true,
     }
 }
 
