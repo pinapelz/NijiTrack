@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import ChannelRow from "./SubscriberTableRow";
 
 interface ChannelDataProp {
@@ -20,7 +21,7 @@ interface SubscriberDataTableProp {
     timestamp: string;
 }
 
-type SortKey = keyof ChannelDataProp | "rank";
+type SortKey = keyof ChannelDataProp | 'rank';
 
 const DataTable = ({ channel_data, timestamp }: SubscriberDataTableProp) => {
     const [sortKey, setSortKey] = useState<SortKey>("subscribers");
@@ -73,6 +74,13 @@ const DataTable = ({ channel_data, timestamp }: SubscriberDataTableProp) => {
                 <p className="text-gray-500 text-sm">
                     Updated Hourly. Retrieved at: {timestamp}
                 </p>
+                <Link href="/twitch">
+                  <button
+                      className="mt-4 px-4 py-2 bg-black text-white font-semibold rounded-md hover:bg-gray-800 transition-colors"
+                  >
+                    Looking for &#34;The Twitch Table&#34;?
+                  </button>
+                </Link>
             </div>
             <div className="px-2 sm:px-48 py-4 sm:py-8 relative rounded-l text-left overflow-auto">
                 <table className="w-full text-m sm:text-xl text-black bg-white">

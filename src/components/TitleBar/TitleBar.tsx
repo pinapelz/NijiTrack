@@ -134,6 +134,11 @@ const TitleBar: React.FC<TitleBarProps> = ({
               Home
             </li>
           </Link>
+          <Link href="/twitch">
+            <li className="p-4 hover:bg-gray-700 transition-colors duration-300">
+              Twitch Table
+            </li>
+          </Link>
           <Link href="/about">
             <li className="p-4 hover:bg-gray-700 transition-colors duration-300">
               About
