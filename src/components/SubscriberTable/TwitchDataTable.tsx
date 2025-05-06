@@ -148,7 +148,7 @@ const TwitchDataTable = ({ channel_data, timestamp }: TwitchDataTableProp) => {
                                 )}
                             </th>
                             <th
-                                className="py-1 px-1 sm:px-3 cursor-pointer"
+                                className="py-1 px-1 sm:px-3 cursor-pointer hidden sm:table-cell"
                                 onClick={() => handleSort("total_sum")}
                             >
                               SUM(YT+TTV)
