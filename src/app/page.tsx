@@ -41,7 +41,7 @@ async function Home() {
 
 async function getData() {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING;
-  const endpoint = "/api/subscribers";
+  const endpoint = "/subscribers.json";
   const headers = {
     "Cache-Control": "no-cache",
   };

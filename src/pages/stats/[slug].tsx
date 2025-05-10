@@ -156,24 +156,29 @@ function Page({
 }
 
 async function getGraphData(slug: string) {
-    const encodedSlug = encodeURIComponent(slug as string);
+    const encodedSlug = encodeURIComponent(slug as string).replace(/%20/g, "").replace(/\s+/g, "");
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const response = await fetch(apiUrl + `/api/subscribers/${encodedSlug}`, {
+    console.log(apiUrl + `/subscribers_${encodedSlug}.json`)
+    const response = await fetch(apiUrl + `/subscribers_${encodedSlug}.json`, {
         headers: {
             "Cache-Control": "no-cache",
         },
         cache: "no-cache",
     });
-    if (!response.ok) {
-        console.log(response.statusText);
+    const contentType = response.headers.get("content-type");
+    if (!response.ok || !contentType?.includes("application/json")) {
+        const text = await response.text();
+        console.error("Unexpected response:", text.slice(0, 200));
+        throw new Error(`Failed to load JSON. Status: ${response.status}`);
     }
+
     return response.json();
 }
 
 async function getChannelData(slug: string) {
-    const encodedSlug = encodeURIComponent(slug as string);
+    const encodedSlug = encodeURIComponent(slug as string).replace(/%20/g, "").replace(/\s+/g, "");
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-    const response = await fetch(apiUrl + `/api/channel/${encodedSlug}`, {
+    const response = await fetch(apiUrl + `/info_${encodedSlug}.json`, {
         headers: {
             "Cache-Control": "no-cache",
         },
@@ -186,10 +191,10 @@ async function getChannelData(slug: string) {
 }
 
 async function get7DGraphData(slug: string) {
-    const encodedSlug = encodeURIComponent(slug as string);
+    const encodedSlug = encodeURIComponent(slug as string).replace(/%20/g, "").replace(/\s+/g, "");
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const response = await fetch(
-        apiUrl + `/api/subscribers/${encodedSlug}/7d`,
+        apiUrl + `/subscribers_${encodedSlug}_7d.json`,
         {
             headers: {
                 "Cache-Control": "no-cache",
@@ -204,10 +209,10 @@ async function get7DGraphData(slug: string) {
 }
 
 async function getMilestoneData(slug: string) {
-    const encodedSlug = encodeURIComponent(slug as string);
+    const encodedSlug = encodeURIComponent(slug as string).replace(/%20/g, "").replace(/\s+/g, "");
     const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const response = await fetch(
-        apiUrl + `/api/subscribers/${encodedSlug}/milestones`,
+        apiUrl + `/milestones_${encodedSlug}.json`,
         {
             headers: {
                 "Cache-Control": "no-cache",
