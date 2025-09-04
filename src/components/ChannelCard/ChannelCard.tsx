@@ -34,7 +34,7 @@ const ChannelCard: React.FC<ChannelCardProps> = ({
     diff_30d,
 }) => {
     return (
-        <div className="max-w-4xl w-full mb-4 mt-4 rounded-xl overflow-hidden shadow-lg bg-gradient-to-r from-gray-800 via-gray-900 to-gray-800 p-4 sm:p-8 hover:shadow-2xl transition-all duration-300">
+        <div className="max-w-4xl w-full mb-4 mt-4 rounded-xl overflow-hidden shadow-lg bg-linear-to-r from-gray-800 via-gray-900 to-gray-800 p-4 sm:p-8 hover:shadow-2xl transition-all duration-300">
             <div className="flex flex-col sm:flex-row items-center mb-6">
                 <Image
                     src={avatarUrl}
