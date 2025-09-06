@@ -98,11 +98,11 @@ const TwitchDataTable = ({ channel_data, timestamp }: TwitchDataTableProp) => {
                     <h3 className="font-bold text-gray-800 mb-1">MAX Column Color Key</h3>
                     <div>
                       <div className="flex items-center mb-1">
-                        <div className="h-3 w-3 bg-red-600 rounded-full mr-2 flex-shrink-0"></div>
+                        <div className="h-3 w-3 bg-red-600 rounded-full mr-2 shrink-0"></div>
                         <span className="text-gray-600">YouTube subscriber count is higher</span>
                       </div>
                       <div className="flex items-center">
-                        <div className="h-3 w-3 bg-purple-600 rounded-full mr-2 flex-shrink-0"></div>
+                        <div className="h-3 w-3 bg-purple-600 rounded-full mr-2 shrink-0"></div>
                         <span className="text-gray-600">Twitch follower count is higher</span>
                       </div>
                     </div>

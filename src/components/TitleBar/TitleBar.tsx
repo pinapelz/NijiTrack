@@ -94,7 +94,7 @@ const TitleBar: React.FC<TitleBarProps> = ({
         >
           <button
             onClick={toggleSidebar}
-            className="text-white text-3xl mr-4 focus:outline-none"
+            className="text-white text-3xl mr-4 focus:outline-none hover:cursor-pointer"
           >
             <FontAwesomeIcon icon={isSidebarOpen ? faTimes : faBars} />
           </button>

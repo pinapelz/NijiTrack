@@ -2,7 +2,6 @@ import TwitchDataTable, {
   type TwitchDataTableProp,
 } from "../../components/SubscriberTable/TwitchDataTable";
 import TitleBar from "../../components/TitleBar/TitleBar";
-import Announcement from "../../components/Announcement";
 import "../../app/globals.css";
 
 type Props = {
