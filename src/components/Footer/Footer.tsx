@@ -17,7 +17,7 @@ const Footer = () => {
                 <p className="p-4">
                     <a
                         className="hover:underline text-bold text-blue-600"
-                        href="https://github.com/pinapelz/Nijitrack"
+                        href="https://github.com/pinapelz/NijiTrack/tree/phase-tracker"
                     >
                         Source Code
                     </a>
