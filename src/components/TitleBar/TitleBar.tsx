@@ -41,7 +41,12 @@ const TitleBar: React.FC<TitleBarProps> = ({
     const fetchPhaseData = async () => {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL_TESTING;
       try {
-        const response = await fetch(apiUrl + "/groups.json");
+        const response = await fetch(apiUrl + "/groups.json", {
+          cache: 'no-store',
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        });
         const data = await response.json();
         setPhaseData(data);
         const initialCollapsedState = Object.keys(data).reduce(
